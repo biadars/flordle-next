@@ -19,17 +19,36 @@ export const WebPlayback: VFC<Props> = ({ token }) => {
 
     window.onSpotifyWebPlaybackSDKReady = () => {
       const player = new window.Spotify.Player({
-        name: "Web Playback SDK",
+        name: "flordle",
         getOAuthToken: (cb) => {
           cb(token);
         },
         volume: 0.5,
-      });
+      }, );
+      const transferPlayback = (device_id: string) => {
+        const body = JSON.stringify({device_id: device_id});
+        fetch('/api/playback/transfer_playback', {method: 'POST', body: body}).then();
+      }
+      const getAvailableDevices = () => {
+        fetch('/api/playback/available_devices').then();
+      }
+      const playSong = (device_id: string) => {
+        console.log('sending device id', device_id);
+        const body = JSON.stringify({device_id: device_id});
+        fetch('/api/playback/play_song', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: body}).then();
+      }
 
       setPlayer(player);
 
       player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", device_id);
+        playSong(device_id);
       });
 
       player.addListener("not_ready", ({ device_id }) => {
@@ -53,7 +72,7 @@ export const WebPlayback: VFC<Props> = ({ token }) => {
         });
       });
 
-      player.connect();
+      player.connect().then();
     };
   }, [token]);
 
