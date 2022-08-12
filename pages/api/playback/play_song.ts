@@ -6,7 +6,6 @@ const play_song = async (req: NextApiRequest, res: NextApiResponse) => {
         accessToken: req.cookies['spotify-token']
     });
 
-    console.log('device id', req.body.device_id);
     return spotifyApi.play({device_id: req.body.device_id, uris: ['spotify:track:4C4Pduzp8LfAtQXHAGQWM5']})
         .then(function(data) {
             console.log('playing track');
