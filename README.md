@@ -8,7 +8,7 @@ You will need to register your app and get your own credentials from the
 To do so, go to your Spotify for Developers Dashboard, create your
 application and register the following callback URI:
 
-`http://localhost:3000/api/auth/callback`
+`http://localhost:5000/api/auth/callback`
 
 Once you have created your app, create a file called `.env` in the root folder
 of the repository with your Spotify credentials:
@@ -38,7 +38,7 @@ Start both client and server with the following command:
 npm run dev
 ```
 
-The React application will start on `http://localhost:3000`
+The React application will start on `http://localhost:5000`
 
 ## Related articles
 - "[Next.js + TypeScript で Spotify Web Playback SDK の公式サンプルを書き直してみた](https://zenn.dev/ossamoon/articles/ef20bf19284fd8)"(zenn.dev)
