@@ -13,7 +13,6 @@ const generateRandomString = (length: number): string => {
 
 const login = (req: NextApiRequest, res: NextApiResponse) => {
   const scope: string = "streaming user-read-email user-read-private user-read-playback-state";
-  const spotify_redirect_uri = "http://localhost:5000/api/auth/callback";
   const state: string = generateRandomString(16);
 
   let spotify_client_id: string = "";
@@ -23,6 +22,13 @@ const login = (req: NextApiRequest, res: NextApiResponse) => {
     console.error(
       'Undefined Error: An environmental variable, "SPOTIFY_CLIENT_ID", has something wrong.'
     );
+  }
+
+  let spotify_redirect_uri = "";
+  if (process.env.SPOTIFY_REDIRECT_URI) {
+    spotify_redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
+  } else {
+    console.error('Undefined Error: An environmental variable, "SPOTIFY_REDIRECT_URI", has something wrong.');
   }
 
   const auth_query_parameters = new URLSearchParams({
