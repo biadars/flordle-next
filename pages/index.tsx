@@ -12,10 +12,10 @@ const Home: NextPage<Props> = (props: Props) => {
     return (
         <>
             <Head>
-                <title>Spotify Web Playback Example</title>
+                <title>flordle</title>
                 <meta
                     name="description"
-                    content="An example app of Spotify Web Playback SDK based on Next.js and Typescript."
+                    content="A song guessing game specific to Florence and the Machine and Hozier"
                 />
             </Head>
 

@@ -1,4 +1,5 @@
-import React, { VFC, useState, useEffect } from 'react';
+import React, {VFC, useState, useEffect} from 'react';
+import {ScaleLoader} from 'react-spinners';
 
 type Props = {
   token: string;
@@ -83,78 +84,63 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
         };
     }, [props.token, props.playbackDuration]);
 
-    if (!player) {
+    const renderPlayer = () => {
         return (
             <>
-                <div className="container">
-                    <div className="main-wrapper">
-                        <b>Spotify Player is null</b>
+                {current_track && current_track.album.images[0].url ? (
+                    <img
+                        src={current_track.album.images[0].url}
+                        className="now-playing__cover"
+                        alt=""
+                    />
+                ) : null}
+
+                <div className="now-playing__side">
+                    <div className="now-playing__name">{current_track?.name}</div>
+                    <div className="now-playing__artist">
+                        {current_track?.artists[0].name}
                     </div>
+
+                    <button
+                        className="btn-spotify"
+                        onClick={() => {
+                            player?.previousTrack();
+                        }}
+                    >
+                        &lt;&lt;
+                    </button>
+
+                    <button
+                        className="btn-spotify"
+                        onClick={() => {
+                            player?.togglePlay();
+                        }}
+                    >
+                        {is_paused ? 'PLAY' : 'PAUSE'}
+                    </button>
+
+                    <button
+                        className="btn-spotify"
+                        onClick={() => {
+                            player?.nextTrack();
+                        }}
+                    >
+                        &gt;&gt;
+                    </button>
                 </div>
             </>
         );
-    } else if (!is_active) {
-        return (
-            <>
-                <div className="container">
-                    <div className="main-wrapper">
-                        <b>
-              Instance not active. Transfer your playback using your Spotify app
-                        </b>
-                    </div>
+    };
+
+    return (
+        <>
+            <div className="container">
+                <div className="main-wrapper">
+                    <div></div>
+                    <ScaleLoader loading={!player || !is_active} color={'#ffffff'}/>
+                    {player && is_active && renderPlayer()}
                 </div>
-            </>
-        );
-    } else {
-        return (
-            <>
-                <div className="container">
-                    <div className="main-wrapper">
-                        <div></div>
-                        {current_track && current_track.album.images[0].url ? (
-                            <img
-                                src={current_track.album.images[0].url}
-                                className="now-playing__cover"
-                                alt=""
-                            />
-                        ) : null}
-
-                        <div className="now-playing__side">
-                            <div className="now-playing__name">{current_track?.name}</div>
-                            <div className="now-playing__artist">
-                                {current_track?.artists[0].name}
-                            </div>
-
-                            <button
-                                className="btn-spotify"
-                                onClick={() => {
-                                    player.previousTrack();
-                                }}
-                            >
-                &lt;&lt;
-                            </button>
-
-                            <button
-                                className="btn-spotify"
-                                onClick={() => {
-                                    player.togglePlay();
-                                }}
-                            >
-                                {is_paused ? 'PLAY' : 'PAUSE'}
-                            </button>
-
-                            <button
-                                className="btn-spotify"
-                                onClick={() => {
-                                    player.nextTrack();
-                                }}
-                            >
-                &gt;&gt;
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </>
-        );
-    }
+            </div>
+        </>
+    );
 };
