@@ -16,29 +16,27 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
     const [timerValue, setTimerValue] = useState(0);
 
     const onTimerUpdate = (timerUpdate: {time: number}) => {
-        setTimerValue(timerUpdate.time * 1000);
+        setTimerValue(timerUpdate.time / 1000);
+    };
+
+    const pauseAndRewindPlayback = () => {
+        if (!player) {
+            return;
+        }
+        return player.pause()
+            .then(() => player.seek(0))
+            .then();
     };
 
     const onTimerFinish = () => {
-        console.log('done');
         setTimerValue(0);
+        pauseAndRewindPlayback();
     };
 
     useEffect(() => {
         const script = document.createElement('script');
         script.src = 'https://sdk.scdn.co/spotify-player.js';
         script.async = true;
-
-        const pauseAndRewindPlayback = (player: Spotify.Player) => {
-            console.log('pausing player');
-            return player.pause()
-                .then(() => player.seek(0))
-                .then();
-        };
-
-        const stopPlaybackAfterDuration = (player: Spotify.Player) => {
-            setTimeout(() => pauseAndRewindPlayback(player), props.playbackDuration * 1000);
-        };
 
         document.body.appendChild(script);
 
@@ -79,12 +77,6 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
 
                 setIsPaused(state.paused);
 
-                if (!state.paused) {
-                    stopPlaybackAfterDuration(player);
-                } else {
-                    setTimerValue(0);
-                }
-
                 player.getCurrentState().then((state) => {
                     if (!state) {
                         setActive(false);
@@ -118,7 +110,7 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
                         onStop={onTimerFinish}
                         onFinish={onTimerFinish}
                     >
-                        <StreamingProgressBar progress={timerValue}/>
+                        <StreamingProgressBar secondsElapsed={timerValue}/>
                     </Timer>
                 </div>
             </>

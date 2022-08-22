@@ -3,7 +3,7 @@ import 'react-step-progress-bar/styles.css';
 import { ProgressBar, Step } from 'react-step-progress-bar';
 
 type Props = {
-    progress: number;
+    secondsElapsed: number;
 }
 export const StreamingProgressBar: VFC<Props> = (props: Props) => {
     const secondMarks = [1, 2, 4, 7, 11, 16];
@@ -11,8 +11,8 @@ export const StreamingProgressBar: VFC<Props> = (props: Props) => {
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
-        setProgress(props.progress * 100 / 16);
-    }, [props.progress]);
+        setProgress(props.secondsElapsed * 100 / 16);
+    }, [props.secondsElapsed]);
 
     const renderStep = (secondMark: number) => {
         return <Step transition="scale" key={secondMark}>
