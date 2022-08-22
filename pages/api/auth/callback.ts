@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { serialize, CookieSerializeOptions } from 'cookie';
 import axios from 'axios';
+import moment from 'moment/moment';
 
 type SpotifyAuthApiResponse = {
   access_token: string;
@@ -17,11 +18,13 @@ export const setCookie = (
 ) => {
     const stringValue =
     typeof value === 'object' ? 'j:' + JSON.stringify(value) : String(value);
+    const expirationTime = moment().add(1, 'hours').toDate();
 
     const options: CookieSerializeOptions = {
         httpOnly: true,
         secure: true,
         path: '/',
+        expires: expirationTime
     };
 
     res.setHeader('Set-Cookie', serialize(name, stringValue, options));
