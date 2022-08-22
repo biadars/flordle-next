@@ -57,7 +57,7 @@ body {
   margin: 0 auto;
   justify-content: center;
   position: relative;
-  width: 100%;
+  width: 80%;
   max-width: 640px;
   z-index: 1;
 }
