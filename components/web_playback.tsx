@@ -1,6 +1,8 @@
 import React, {VFC, useState, useEffect} from 'react';
 import {ScaleLoader} from 'react-spinners';
+import Timer from 'react-timer-wrapper';
 import PlayCircleFilledOutlined from '@material-ui/icons/PlayCircleFilledOutlined';
+import {StreamingProgressBar} from './streaming_progress_bar';
 
 type Props = {
   token: string;
@@ -10,21 +12,31 @@ type Props = {
 export const WebPlayback: VFC<Props> = (props: Props) => {
     const [is_active, setActive] = useState<boolean>(false);
     const [player, setPlayer] = useState<Spotify.Player | null>(null);
+    const [isPaused, setIsPaused] = useState(true);
+    const [timerValue, setTimerValue] = useState(0);
+
+    const onTimerUpdate = (timerUpdate: {time: number}) => {
+        setTimerValue(timerUpdate.time / 1000);
+    };
+
+    const pauseAndRewindPlayback = () => {
+        if (!player) {
+            return;
+        }
+        return player.pause()
+            .then(() => player.seek(0))
+            .then();
+    };
+
+    const onTimerFinish = () => {
+        setTimerValue(0);
+        pauseAndRewindPlayback();
+    };
 
     useEffect(() => {
         const script = document.createElement('script');
         script.src = 'https://sdk.scdn.co/spotify-player.js';
         script.async = true;
-
-        const pauseAndRewindPlayback = (player: Spotify.Player) => {
-            return player.pause()
-                .then(() => player.seek(0))
-                .then();
-        };
-
-        const stopPlaybackAfterDuration = (player: Spotify.Player) => {
-            setTimeout(() => pauseAndRewindPlayback(player), props.playbackDuration * 1000);
-        };
 
         document.body.appendChild(script);
 
@@ -63,9 +75,7 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
                     return;
                 }
 
-                if (!state.paused) {
-                    stopPlaybackAfterDuration(player);
-                }
+                setIsPaused(state.paused);
 
                 player.getCurrentState().then((state) => {
                     if (!state) {
@@ -83,8 +93,7 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
     const renderPlayer = () => {
         return (
             <>
-                <div className="play-button-container">
-
+                <div className="web-playback">
                     <button
                         className="play-button"
                         onClick={() => {
@@ -93,6 +102,16 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
                     >
                         <PlayCircleFilledOutlined fontSize='large'/>
                     </button>
+                    <Timer
+                        active={!isPaused}
+                        loop
+                        duration={props.playbackDuration * 1000}
+                        onTimeUpdate={onTimerUpdate}
+                        onStop={onTimerFinish}
+                        onFinish={onTimerFinish}
+                    >
+                        <StreamingProgressBar secondsElapsed={timerValue}/>
+                    </Timer>
                 </div>
             </>
         );
