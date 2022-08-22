@@ -1,6 +1,6 @@
 import React, {useEffect, useState, VFC} from 'react';
-import 'react-step-progress-bar/styles.css';
-import { ProgressBar, Step } from 'react-step-progress-bar';
+import ProgressBar from 'react-bootstrap/ProgressBar';
+
 
 type Props = {
     secondsElapsed: number;
@@ -11,25 +11,30 @@ export const StreamingProgressBar: VFC<Props> = (props: Props) => {
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
+        console.log(props.secondsElapsed * 100 / 16);
         setProgress(props.secondsElapsed * 100 / 16);
     }, [props.secondsElapsed]);
 
-    const renderStep = (secondMark: number) => {
-        return <Step transition="scale" key={secondMark}>
-            {() => (
-                <div className='progressStep'>{secondMark}</div>
-            )}
-        </Step>;
+    const progressForBar = (index: number) => {
+        const percentage = props.secondsElapsed * 100 / 16;
+        const minimumForBar = index > 0 ? stepPositions[index - 1] : 0;
+        const maximumForBar = stepPositions[index];
+        if (index === 0) {
+            return Math.min(percentage, maximumForBar);
+        }
+        return percentage > minimumForBar ? Math.min(percentage, maximumForBar) - minimumForBar : 0;
     };
 
     return (
         <div className="streaming-progress-bar">
-            <ProgressBar
-                percent={progress}
-                filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
-                stepPositions={stepPositions}
-            >
-                {secondMarks.map(renderStep)}
+            Current progress: {props.secondsElapsed * 100 /16}
+            <ProgressBar>
+                <ProgressBar variant="success" now={progressForBar(0)} key={0}/>
+                <ProgressBar variant="info" now={progressForBar(1)} key={1}/>
+                <ProgressBar variant="warning" now={progressForBar(2)} key={2}/>
+                <ProgressBar variant="danger" now={progressForBar(3)} key={3}/>
+                <ProgressBar variant="success" now={progressForBar(4)} key={4}/>
+                <ProgressBar variant="info" now={progressForBar(5)} key={5}/>
             </ProgressBar>
         </div>
     );
