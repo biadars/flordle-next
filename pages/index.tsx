@@ -19,7 +19,7 @@ const Home: NextPage<Props> = (props: Props) => {
                 />
             </Head>
 
-            {props.token === '' ? <Login /> : <WebPlayback token={props.token} />}
+            {props.token === '' ? <Login /> : <WebPlayback token={props.token} playbackDuration={1} />}
         </>
     );
 };

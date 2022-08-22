@@ -2,6 +2,7 @@ import React, { VFC, useState, useEffect } from 'react';
 
 type Props = {
   token: string;
+  playbackDuration: number;
 };
 
 export const WebPlayback: VFC<Props> = (props: Props) => {
@@ -15,6 +16,16 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
         script.src = 'https://sdk.scdn.co/spotify-player.js';
         script.async = true;
 
+        const pauseAndRewindPlayback = (player: Spotify.Player) => {
+            return player.pause()
+                .then(() => player.seek(0))
+                .then();
+        };
+
+        const stopPlaybackAfterDuration = (player: Spotify.Player) => {
+            setTimeout(() => pauseAndRewindPlayback(player), props.playbackDuration * 1000);
+        };
+
         document.body.appendChild(script);
 
         window.onSpotifyWebPlaybackSDKReady = () => {
@@ -27,7 +38,6 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
             }, );
 
             const playSong = (device_id: string) => {
-                console.log('sending device id', device_id);
                 const body = JSON.stringify({device_id: device_id});
                 fetch('/api/playback/play_song', {
                     method: 'POST',
@@ -41,7 +51,6 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
             setPlayer(player);
 
             player.addListener('ready', ({ device_id }) => {
-                console.log('Ready with Device ID', device_id);
                 playSong(device_id);
             });
 
@@ -57,6 +66,10 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
                 setTrack(state.track_window.current_track);
                 setPaused(state.paused);
 
+                if (!state.paused) {
+                    stopPlaybackAfterDuration(player);
+                }
+
                 player.getCurrentState().then((state) => {
                     if (!state) {
                         setActive(false);
@@ -68,7 +81,7 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
 
             player.connect().then();
         };
-    }, [props.token]);
+    }, [props.token, props.playbackDuration]);
 
     if (!player) {
         return (
