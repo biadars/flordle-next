@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { Login } from '../components/login';
 import { WebPlayback } from '../components/web_playback';
 import React from 'react';
+import {Game} from '../components/game';
 
 type Props = {
   token: string;
@@ -19,7 +20,7 @@ const Home: NextPage<Props> = (props: Props) => {
                 />
             </Head>
 
-            {props.token === '' ? <Login /> : <WebPlayback token={props.token} playbackDuration={4} />}
+            {props.token === '' ? <Login /> : <Game token={props.token}/>}
         </>
     );
 };
