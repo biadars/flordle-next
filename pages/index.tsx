@@ -1,7 +1,6 @@
 import type { NextPage, GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { Login } from '../components/login';
-import { WebPlayback } from '../components/web_playback';
 import React from 'react';
 import {Game} from '../components/game';
 

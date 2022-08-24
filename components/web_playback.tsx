@@ -7,6 +7,7 @@ import {StreamingProgressBar} from './streaming_progress_bar';
 type Props = {
   token: string;
   playbackDuration: number;
+  setTrack: (value: Spotify.Track) => void;
 };
 
 export const WebPlayback: VFC<Props> = (props: Props) => {
@@ -14,6 +15,7 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
     const [player, setPlayer] = useState<Spotify.Player | null>(null);
     const [isPaused, setIsPaused] = useState(true);
     const [timerValue, setTimerValue] = useState(0);
+
 
     const onTimerUpdate = (timerUpdate: {time: number}) => {
         setTimerValue(timerUpdate.time / 1000);
@@ -92,6 +94,7 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
                         setActive(false);
                     } else {
                         setActive(true);
+                        props.setTrack(state.track_window.current_track);
                     }
                 });
             });
