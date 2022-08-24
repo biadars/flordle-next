@@ -15,7 +15,7 @@ export const StreamingProgressBar: VFC<Props> = (props: Props) => {
     }, [props.secondsElapsed]);
 
     const renderStep = (secondMark: number) => {
-        return <Step transition="scale" key={secondMark}>
+        return <Step key={secondMark}>
             {() => (
                 <div className='progressStep'>{secondMark}</div>
             )}

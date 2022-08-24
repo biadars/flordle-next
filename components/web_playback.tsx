@@ -19,6 +19,14 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
         setTimerValue(timerUpdate.time / 1000);
     };
 
+    const handlePlayButtonClicked = () => {
+        if (!player) {
+            console.log('player is null!');
+        } else{
+            player.resume().then();
+        }
+    };
+
     const pauseAndRewindPlayback = () => {
         if (!player) {
             return;
@@ -34,6 +42,18 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
     };
 
     useEffect(() => {
+
+        const playSong = (device_id: string) => {
+            const body = JSON.stringify({device_id: device_id});
+            fetch('/api/playback/play_song', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: body}).then();
+        };
+
         const script = document.createElement('script');
         script.src = 'https://sdk.scdn.co/spotify-player.js';
         script.async = true;
@@ -49,21 +69,11 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
                 volume: 0.5,
             }, );
 
-            const playSong = (device_id: string) => {
-                const body = JSON.stringify({device_id: device_id});
-                fetch('/api/playback/play_song', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: body}).then();
-            };
-
             setPlayer(player);
 
             player.addListener('ready', ({ device_id }) => {
                 playSong(device_id);
+                console.log('ready again', device_id);
             });
 
             player.addListener('not_ready', ({ device_id }) => {
@@ -88,7 +98,7 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
 
             player.connect().then();
         };
-    }, [props.token, props.playbackDuration]);
+    }, [props.token]);
 
     const renderPlayer = () => {
         return (
@@ -96,16 +106,14 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
                 <div className="web-playback">
                     <button
                         className="play-button"
-                        onClick={() => {
-                            player?.resume();
-                        }}
+                        onClick={handlePlayButtonClicked}
                     >
                         <PlayCircleFilledOutlined fontSize='large'/>
                     </button>
                     <Timer
                         active={!isPaused}
                         loop
-                        duration={props.playbackDuration * 1000}
+                        duration={props.playbackDuration * 1000 + 1000}
                         onTimeUpdate={onTimerUpdate}
                         onStop={onTimerFinish}
                         onFinish={onTimerFinish}
@@ -119,12 +127,8 @@ export const WebPlayback: VFC<Props> = (props: Props) => {
 
     return (
         <>
-            <div className="container">
-                <div className="main-wrapper">
-                    <ScaleLoader loading={!player || !is_active} color={'#ffffff'}/>
-                    {player && is_active && renderPlayer()}
-                </div>
-            </div>
+            <ScaleLoader loading={!player} color={'#ffffff'}/>
+            {player && renderPlayer()}
         </>
     );
 };
