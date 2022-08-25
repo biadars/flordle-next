@@ -1,6 +1,6 @@
 import React, {useState, VFC} from 'react';
-import {WebPlayback} from './web_playback';
 import {ReactSearchAutocomplete} from 'react-search-autocomplete';
+import {WebPlaybackWrapper} from './web_playback_wrapper';
 
 interface SongOption {
     id: number;
@@ -52,7 +52,7 @@ export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
 
     return (
         <>
-            <WebPlayback token={props.token} playbackDuration={guessPlaybackDurations[guessNumber]} setTrack={props.setTrack}/>
+            <WebPlaybackWrapper token={props.token} playbackDuration={guessPlaybackDurations[guessNumber]} setTrack={props.setTrack}/>
             <div className="inputContainer">
                 <ReactSearchAutocomplete
                     items={options}
