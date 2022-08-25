@@ -19,6 +19,7 @@
     "next": "12.0.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-easy-emoji": "^1.8.0",
     "react-search-autocomplete": "^7.2.2",
     "react-spinners": "^0.13.4",
     "react-spotify-web-playback-sdk": "^3.0.1",

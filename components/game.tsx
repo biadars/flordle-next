@@ -12,7 +12,7 @@ export const Game: VFC<Props> = (props: Props) => {
 
     return (
         <div className="container">
-            <div className="main-wrapper">
+            <div className="mainWrapper">
                 {!gameOver && <PlaybackAndGuesses token={props.token}  setTrack={setTrack} setGameOver={setGameOver} setUserWon={setUserWon}/>}
                 {gameOver && <GameEndScreen track={track} userWon={userWon}/>}
             </div>

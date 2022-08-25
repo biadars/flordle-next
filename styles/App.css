@@ -16,7 +16,7 @@ body {
   text-align: center;
 }
 
-.App-header {
+.appHeader {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -42,7 +42,7 @@ body {
   position: absolute;
 }
 
-.main-wrapper {
+.mainWrapper {
   padding-top: 45px;
   align-items: center;
   display: flex;
@@ -63,7 +63,7 @@ body {
   height: 100%;
 }
 
-.main-container {
+.mainContainer {
   flex: 1;
 }
 
@@ -71,7 +71,7 @@ img {
   background: transparent;
 }
 
-.btn-spotify {
+.loginButton {
   background-color: #44c767;
   border-radius: 28px;
   border: 1px solid #18ab29;
@@ -85,13 +85,13 @@ img {
   text-shadow: 0px 1px 0px #2f6627;
 }
 
-.web-playback {
+.webPlayback {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.play-button {
+.playButton {
   background: none;
   color: inherit;
   border: none;
@@ -119,14 +119,14 @@ img {
   margin-top: 50px;
 }
 
-.actions-container {
+.actionsContainer {
   display: flex;
   margin-top: 20px;
   width: 100%;
   justify-content: space-between;
 }
 
-.skip-button {
+.skipButton {
   width: 75px;
   height: 40px;
   color: white;
@@ -137,11 +137,11 @@ img {
   opacity: 80%;
 }
 
-.skip-button:hover {
+.skipButton:hover {
   opacity: 100%;
 }
 
-.submit-button {
+.submitButton {
   width: 75px;
   height: 40px;
   color: white;
@@ -152,6 +152,37 @@ img {
   opacity: 80%;
 }
 
-.submit-button:hover {
+.submitButton:hover {
   opacity: 100%;
+}
+
+.gameEndScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.resultsMessage {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+}
+
+.resultsEmoji {
+  margin-right: 10px;
+}
+
+.albumCover {
+  margin: 20px;
+}
+
+.songInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 24px;
+}
+
+.songName {
+  font-weight: bold;
 }

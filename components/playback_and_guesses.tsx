@@ -75,9 +75,9 @@ export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
                     }}
                 />
             </div>
-            <div className="actions-container">
-                <button className="skip-button" onClick={goToNextGuess} disabled={guessNumber === 6}>SKIP</button>
-                <button className="submit-button" onClick={submitGuess}>SUBMIT</button>
+            <div className="actionsContainer">
+                <button className="skipButton" onClick={goToNextGuess} disabled={guessNumber === 6}>SKIP</button>
+                <button className="submitButton" onClick={submitGuess}>SUBMIT</button>
             </div>
         </>
     );

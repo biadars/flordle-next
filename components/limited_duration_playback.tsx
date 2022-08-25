@@ -38,7 +38,6 @@ export const LimitedDurationPlayback: VFC<Props> = (props: Props) => {
         if (gameStarted) {
             player?.resume().then();
         } else {
-            setGameStarted(true);
             startPlayingSong();
         }
     };
@@ -61,18 +60,22 @@ export const LimitedDurationPlayback: VFC<Props> = (props: Props) => {
         setMillisecondsElapsed(playbackState.position);
         props.setTrack(playbackState.track_window.current_track);
 
+        if (!gameStarted && !playbackState.paused) {
+            setGameStarted(true);
+        }
+
         if (!playbackState.paused && playbackState.position >= props.playbackDuration * 1000) {
             pausePlayback();
         }
-    }, [playbackState, props.playbackDuration, player, setMillisecondsElapsed]);
+    }, [playbackState, props.playbackDuration, player, setMillisecondsElapsed, gameStarted, setGameStarted]);
 
     return (
         <>
             <ScaleLoader loading={!webPlaybackSDKReady} color={'#ffffff'}/>
             {webPlaybackSDKReady && (
-                <div className="web-playback">
+                <div className="webPlayback">
                     <button
-                        className="play-button"
+                        className="playButton"
                         onClick={resumePlayback}
                     >
                         <PlayCircleFilledOutlined fontSize='large'/>
