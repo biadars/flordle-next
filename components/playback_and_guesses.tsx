@@ -1,6 +1,7 @@
 import React, {useState, VFC} from 'react';
 import {ReactSearchAutocomplete} from 'react-search-autocomplete';
 import {WebPlaybackWrapper} from './web_playback_wrapper';
+import {PreviousGuesses} from './previous_guesses';
 
 interface SongOption {
     id: number;
@@ -20,11 +21,11 @@ export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
         { id: 0, name: 'Hozier - Sedated' },
         { id: 1, name: 'Florence and the Machine - Free'}
     ];
-
     const correctOptionId = 0;
 
     const [selectedOption, setSelectedOption] = useState<SongOption | undefined>(undefined);
     const [guessNumber, setGuessNumber] = useState(0);
+    const [guesses, setGuesses] = useState<string[]>([]);
 
 
     const handleOnSelect = (item: SongOption) => {
@@ -40,18 +41,28 @@ export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
         }
     };
 
+    const skipGuess = () => {
+        setGuesses([...guesses, 'SKIPPED']);
+        goToNextGuess();
+    };
+
     const submitGuess = () => {
         if (selectedOption?.id === correctOptionId) {
             props.setUserWon(true);
             props.setGameOver(true);
         } else {
-            console.log('Try again.');
+            if (selectedOption) {
+                setGuesses([...guesses, selectedOption.name]);
+            }
             goToNextGuess();
         }
     };
 
     return (
         <>
+            <div className="previousGuessesContainer">
+                <PreviousGuesses guesses={guesses}/>
+            </div>
             <WebPlaybackWrapper token={props.token} playbackDuration={guessPlaybackDurations[guessNumber]} setTrack={props.setTrack}/>
             <div className="inputContainer">
                 <ReactSearchAutocomplete
@@ -76,8 +87,8 @@ export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
                 />
             </div>
             <div className="actionsContainer">
-                <button className="skipButton" onClick={goToNextGuess} disabled={guessNumber === 6}>SKIP</button>
-                <button className="submitButton" onClick={submitGuess}>SUBMIT</button>
+                <button className="skipButton" onClick={skipGuess}>SKIP</button>
+                <button className="submitButton" onClick={submitGuess} disabled={!selectedOption}>SUBMIT</button>
             </div>
         </>
     );

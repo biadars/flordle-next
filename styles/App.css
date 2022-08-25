@@ -186,3 +186,36 @@ img {
 .songName {
   font-weight: bold;
 }
+
+.previousGuessesContainer {
+  margin-bottom: 50px;
+  width: 100%;
+}
+
+.previousGuesses {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.guess {
+  display: block;
+  border: solid 1px;
+  width: 100%;
+  height: 45px;
+  font-family: Arial, serif;
+  font-size: 14px;
+  margin: 5px;
+}
+
+.guessText {
+  margin: 5px;
+  padding: 10px;
+}
+
+.skippedGuess {
+  margin: 5px;
+  padding: 10px;
+  font-weight: bold;
+}
