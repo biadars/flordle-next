@@ -7,7 +7,6 @@ const play_song = async (req: NextApiRequest) => {
     return getUnusedSong()
         .then(song => playGivenSong(song, req.cookies['spotify-token'], req.body.device_id));
 
-
 };
 
 const playGivenSong = (song: Song | null, spotifyToken: string, deviceId: string) => {
