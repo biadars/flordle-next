@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Challenge {
+  Id     Int    @id @default(autoincrement())
+  SongId BigInt
+  Song   Song   @relation(fields: [SongId], references: [Id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Song {
+  Id              Int         @id @default(autoincrement())
+  SpotifyUri      String      @unique
+  Title           String
+  Artist          String
+  UsedInChallenge Boolean     @default(false)
+  Challenge       Challenge[]
+}
