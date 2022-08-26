@@ -8,9 +8,10 @@ datasource db {
 }
 
 model Challenge {
-  Id     Int    @id @default(autoincrement())
-  SongId BigInt
-  Song   Song   @relation(fields: [SongId], references: [Id], onDelete: NoAction, onUpdate: NoAction)
+  Id     Int      @id @default(autoincrement())
+  SongId Int
+  Date   DateTime @db.Date
+  Song   Song     @relation(fields: [SongId], references: [Id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Song {
