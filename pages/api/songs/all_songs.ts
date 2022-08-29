@@ -1,6 +1,5 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
-import {ChallengeRepository} from '../../../repositories/challenge_repository';
-import {SongRepository} from '../../../repositories/SongRepository';
+import {SongRepository} from '../../../repositories/song_repository';
 
 const all_songs = (req: NextApiRequest, res: NextApiResponse) => {
     return new Promise((resolve, reject) => {

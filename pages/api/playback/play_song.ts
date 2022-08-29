@@ -1,10 +1,11 @@
 import {NextApiRequest} from 'next';
 import { Song } from '@prisma/client';
 import SpotifyWebApi from 'spotify-web-api-node';
-import {getUnusedSong} from '../../../repositories/unused_song_repository';
+import {ChallengeRepository} from '../../../repositories/challenge_repository';
 
 const play_song = async (req: NextApiRequest) => {
-    return getUnusedSong()
+    const challengeRepository = new ChallengeRepository();
+    return challengeRepository.getTodaysSong()
         .then(song => playGivenSong(song, req.cookies['spotify-token'], req.body.device_id));
 
 };
