@@ -13,12 +13,20 @@ export const Game: VFC<Props> = (props: Props) => {
     const [userWon, setUserWon] = useState<boolean | undefined>(undefined);
     const [challenge, setChallenge] = useState<Challenge | undefined>(undefined);
     const [songs, setSongs] = useState<Song[] | undefined>(undefined);
+    const [outOfSongs, setOutOfSongs] = useState(false);
 
     const getTodaysChallenge = () => {
         fetch('/api/challenge/todays_challenge')
-            .then((res) => res.json())
-            .then((res) => setChallenge(res))
-            .catch((err) => console.log('Something went wrong fetching challenge', err));
+            .then(loadChallengeResponse)
+            .then(setChallenge);
+    };
+
+    const loadChallengeResponse = (response: Response) => {
+        if (response.status === 404) {
+            setOutOfSongs(true);
+            return undefined;
+        }
+        return response.json();
     };
 
     const getAllSongs = () => {
@@ -43,6 +51,7 @@ export const Game: VFC<Props> = (props: Props) => {
                     setGameOver={setGameOver}
                     setUserWon={setUserWon}/>}
                 {gameOver && <GameEndScreen track={track} userWon={userWon}/>}
+                {outOfSongs && <div>That was all the Florence and Hozier songs, well done!</div>}
             </div>
         </div>
     );

@@ -36,7 +36,7 @@ export class ChallengeRepository {
     private createChallengeForSong = (song: Song | null) => {
         if (!song) {
             console.log('No more songs to use!');
-            return;
+            return null;
         }
 
         const todaysDate = moment().startOf('day').toDate();
