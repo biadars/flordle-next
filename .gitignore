@@ -39,3 +39,5 @@ yarn-error.log*
 .idea/
 
 .env
+
+migrations/songs.csv

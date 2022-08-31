@@ -12,7 +12,10 @@ export class SongRepository {
     }
 
     public getUnusedSong = () => {
-        return this.client.song.findFirst({where: {UsedInChallenge: {equals: false}}});
+        return this.client.song.findFirst({
+            where: {UsedInChallenge: {equals: false}},
+            orderBy: {SpotifyUri: 'asc'}
+        });
     };
 
     public getSongForChallenge = (challenge: Challenge | null) => {
