@@ -1,31 +1,4 @@
-.webPlayback {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
 
-.playButton {
-  background: none;
-  color: inherit;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
-  margin-bottom: 20px;
-}
-
-.progressStep {
-  color: white;
-  width: 20px;
-  height: 20px;
-  font-size: 12px;
-  background-color: rgba(211, 211, 211, 0.8);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .inputContainer {
   width: 100%;

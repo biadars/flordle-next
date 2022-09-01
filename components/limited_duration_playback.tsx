@@ -6,7 +6,7 @@ import {
     useSpotifyPlayer,
     useWebPlaybackSDKReady
 } from 'react-spotify-web-playback-sdk';
-import {PlayCircleFilledOutlined} from '@material-ui/icons';
+import {PlayCircleFilledOutlined, PlayCircleOutline, PlayCircleOutlineOutlined} from '@material-ui/icons';
 import {StreamingProgressBar} from './streaming_progress_bar';
 
 interface Props {
@@ -74,12 +74,12 @@ export const LimitedDurationPlayback: VFC<Props> = (props: Props) => {
             <ScaleLoader loading={!webPlaybackSDKReady} color={'#ffffff'}/>
             {webPlaybackSDKReady && (
                 <div className="webPlayback">
+                    <StreamingProgressBar millisecondsElapsed={millisecondsElapsed}/>
                     <button
                         className="playButton"
                         onClick={resumePlayback}
                     >
-                        <PlayCircleFilledOutlined fontSize='large'/>
-                        <StreamingProgressBar millisecondsElapsed={millisecondsElapsed}/>
+                        <PlayCircleOutlineOutlined fontSize='inherit'/>
                     </button>
                 </div>
             )}
