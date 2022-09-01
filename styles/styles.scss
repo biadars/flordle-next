@@ -1,0 +1,137 @@
+$background-colour: #362388ff;
+$secondary-colour: #53a2beff;
+$main-colour: #9683EA;
+$highlight-colour: #dcd6f7ff;
+$text-colour: #f2f4ffff;
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: $background-colour;
+  color: #eee;
+  font-family: Helvetica, Arial;
+  font-size: 3vmin;
+  display: flex;
+  flex-direction: column;
+}
+
+.App {
+  text-align: center;
+}
+
+.appHeader {
+  background-color: $background-colour;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: $text-colour;
+}
+
+.hidden {
+  display: none;
+}
+
+.background {
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center center;
+  /*filter: blur(8em) opacity(0.6);*/
+  position: absolute;
+}
+
+.mainWrapper {
+  padding-top: 30px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0 auto;
+  justify-content: center;
+  position: relative;
+  width: 80%;
+  max-width: 640px;
+  z-index: 1;
+}
+
+.container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.mainContainer {
+  flex: 1;
+}
+
+img {
+  background: transparent;
+}
+
+.loginButton {
+  background-color: $main-colour;
+  border-radius: 28px;
+  border: $highlight-colour;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 17px;
+  padding: 16px 31px;
+  text-decoration: none;
+  text-shadow: $secondary-colour;
+}
+
+.previousGuessesContainer {
+  margin-bottom: 50px;
+  width: 100%;
+}
+
+.previousGuesses {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.guess {
+  display: flex;
+  align-items: center;
+  border: solid 1px $highlight-colour;
+  width: 100%;
+  height: 40px;
+  font-family: Arial, serif;
+  font-size: 12px;
+  font-weight: bolder;
+  color: $highlight-colour;
+  margin: 5px;
+  letter-spacing: 2px;
+}
+
+.guessText {
+  margin: 5px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.skippedGuess {
+  margin: 5px;
+  padding: 10px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.guessSymbol {
+  margin-right: 10px;
+}
