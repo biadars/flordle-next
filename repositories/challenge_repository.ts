@@ -22,7 +22,7 @@ export class ChallengeRepository {
     };
 
     private getTodaysChallenge = () => {
-        const todaysDate = moment().startOf('day').toDate();
+        const todaysDate = moment().utc().startOf('day').toDate();
         return this.client.challenge.findFirst({where: {Date: {equals: todaysDate}}});
     };
 

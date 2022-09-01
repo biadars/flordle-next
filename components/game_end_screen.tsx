@@ -15,7 +15,7 @@ export const GameEndScreen: VFC<Props> = (props: Props) => {
     const getResultsMessage = () => {
         return props.userWon
             ? 'That\'s right, well done!'
-            : 'Nope, better luck next time';
+            : 'Better luck next time';
     };
 
     return (

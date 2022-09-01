@@ -43,6 +43,7 @@ export const Game: VFC<Props> = (props: Props) => {
 
     return (
         <div className="container">
+            <div className="gameHeader">flordle</div>
             <div className="mainWrapper">
                 {!gameOver && challenge && songs && <PlaybackAndGuesses token={props.token}
                     challenge={challenge}

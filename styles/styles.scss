@@ -1,12 +1,26 @@
+$background-colour: #362388ff;
+$secondary-colour: #c2abd9;
+$main-colour: #9683EA;
+$highlight-colour: #dcd6f7ff;
+$text-colour: #f2f4ffff;
+
 html,
 body {
   height: 100%;
 }
 
+html,
+body,
+body > div:first-child,
+div#__next,
+div#__next > div {
+  height: 100%;
+}
+
 body {
-  background-color: #333;
+  background-color: $background-colour;
   color: #eee;
-  font-family: Helvetica, Arial;
+  font-family: monospace;
   font-size: 3vmin;
   display: flex;
   flex-direction: column;
@@ -17,14 +31,14 @@ body {
 }
 
 .appHeader {
-  background-color: #282c34;
+  background-color: $background-colour;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: $text-colour;
 }
 
 .hidden {
@@ -43,7 +57,6 @@ body {
 }
 
 .mainWrapper {
-  padding-top: 45px;
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -54,13 +67,27 @@ body {
   width: 80%;
   max-width: 640px;
   z-index: 1;
+  height: 100%;
 }
 
 .container {
   align-items: center;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   height: 100%;
+}
+
+.gameHeader {
+  width: 100%;
+  display: flex;
+  border-bottom: 1px solid $highlight-colour;
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+  font-family: Helvetica, Arial;
+  font-weight: bolder;
+  font-size: 30px;
+  color: $highlight-colour;
 }
 
 .mainContainer {
@@ -72,9 +99,9 @@ img {
 }
 
 .loginButton {
-  background-color: #44c767;
+  background-color: $main-colour;
   border-radius: 28px;
-  border: 1px solid #18ab29;
+  border: $highlight-colour;
   display: inline-block;
   cursor: pointer;
   color: #ffffff;
@@ -82,7 +109,52 @@ img {
   font-size: 17px;
   padding: 16px 31px;
   text-decoration: none;
-  text-shadow: 0px 1px 0px #2f6627;
+  text-shadow: $secondary-colour;
+}
+
+.previousGuessesContainer {
+  margin-bottom: 100px;
+  width: 100%;
+}
+
+.previousGuesses {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.guess {
+  display: flex;
+  align-items: center;
+  border: solid 1px $highlight-colour;
+  width: 100%;
+  height: 40px;
+  font-family: Arial, serif;
+  font-size: 12px;
+  font-weight: bolder;
+  color: $highlight-colour;
+  margin: 5px;
+  letter-spacing: 2px;
+}
+
+.guessText {
+  margin: 5px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.skippedGuess {
+  margin: 5px;
+  padding: 10px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.guessSymbol {
+  margin-right: 10px;
 }
 
 .webPlayback {
@@ -99,24 +171,24 @@ img {
   font: inherit;
   cursor: pointer;
   outline: inherit;
-  margin-bottom: 20px;
+  margin-top: 5px;
+  font-size: 60px;
+  color: $highlight-colour;
 }
 
 .progressStep {
-  color: white;
-  width: 20px;
-  height: 20px;
+  height: 10px;
   font-size: 12px;
-  background-color: rgba(211, 211, 211, 0.8);
-  border-radius: 50%;
+  background-color: $main-colour;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: $highlight-colour;
+  border-left: 3px solid $main-colour;
 }
 
 .inputContainer {
   width: 100%;
-  margin-top: 50px;
 }
 
 .actionsContainer {
@@ -129,8 +201,9 @@ img {
 .skipButton {
   width: 75px;
   height: 40px;
-  color: white;
-  background-color: darkslategray;
+  color: $main-colour;
+  font-weight: bolder;
+  background-color: $highlight-colour;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -144,8 +217,9 @@ img {
 .submitButton {
   width: 75px;
   height: 40px;
-  color: white;
-  background-color: darkgreen;
+  color: $text-colour;
+  font-weight: bolder;
+  background-color: $main-colour;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -165,15 +239,20 @@ img {
 .resultsMessage {
   display: flex;
   align-items: center;
-  font-size: 24px;
+  font-size: 20px;
+  color: $text-colour;
+  font-family: monospace;
 }
 
 .resultsEmoji {
   margin-right: 10px;
+  margin-top: 5px;
 }
 
 .albumCover {
   margin: 20px;
+  height: 250px;
+  width: 250px;
 }
 
 .songInfo {
@@ -181,41 +260,14 @@ img {
   flex-direction: column;
   align-items: center;
   font-size: 24px;
+  color: $highlight-colour;
+  font-family: monospace;
 }
 
 .songName {
   font-weight: bold;
 }
 
-.previousGuessesContainer {
-  margin-bottom: 50px;
-  width: 100%;
-}
-
-.previousGuesses {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: center;
-}
-
-.guess {
-  display: block;
-  border: solid 1px;
-  width: 100%;
-  height: 45px;
-  font-family: Arial, serif;
-  font-size: 14px;
-  margin: 5px;
-}
-
-.guessText {
-  margin: 5px;
-  padding: 10px;
-}
-
-.skippedGuess {
-  margin: 5px;
-  padding: 10px;
-  font-weight: bold;
+.artistName {
+  color: $secondary-colour;
 }

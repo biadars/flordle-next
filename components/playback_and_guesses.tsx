@@ -77,19 +77,20 @@ export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
                 <ReactSearchAutocomplete
                     items={options}
                     onSelect={handleOnSelect}
+                    maxResults={3}
                     styling={{
                         height: '34px',
-                        border: '1px solid darkgreen',
+                        border: '1px solid #dcd6f7ff',
                         borderRadius: '4px',
-                        backgroundColor: 'white',
+                        backgroundColor: '#f2f4ffff',
                         boxShadow: 'none',
-                        hoverBackgroundColor: 'lightgreen',
-                        color: 'darkgreen',
+                        hoverBackgroundColor: '#dcd6f7ff',
+                        color: '#9683EA',
                         fontSize: '12px',
                         fontFamily: 'Courier',
-                        iconColor: 'green',
-                        lineColor: 'lightgreen',
-                        placeholderColor: 'darkgreen',
+                        iconColor: '#9683EA',
+                        lineColor: '#dcd6f7ff',
+                        placeholderColor: '#9683EA',
                         clearIconMargin: '3px 8px 0 0',
                         zIndex: 2,
                     }}
