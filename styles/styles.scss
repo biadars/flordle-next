@@ -65,8 +65,21 @@ body {
 .container {
   align-items: center;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   height: 100%;
+}
+
+.gameHeader {
+  width: 100%;
+  display: flex;
+  border-bottom: 1px solid $highlight-colour;
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+  font-weight: bolder;
+  font-size: 30px;
+  color: $highlight-colour;
 }
 
 .mainContainer {
@@ -92,7 +105,7 @@ img {
 }
 
 .previousGuessesContainer {
-  margin-bottom: 150px;
+  margin-bottom: 120px;
   width: 100%;
 }
 
