@@ -1,5 +1,5 @@
 $background-colour: #362388ff;
-$secondary-colour: #53a2beff;
+$secondary-colour: #c2abd9;
 $main-colour: #9683EA;
 $highlight-colour: #dcd6f7ff;
 $text-colour: #f2f4ffff;
@@ -9,10 +9,18 @@ body {
   height: 100%;
 }
 
+html,
+body,
+body > div:first-child,
+div#__next,
+div#__next > div {
+  height: 100%;
+}
+
 body {
   background-color: $background-colour;
   color: #eee;
-  font-family: Helvetica, Arial;
+  font-family: monospace;
   font-size: 3vmin;
   display: flex;
   flex-direction: column;
@@ -49,7 +57,6 @@ body {
 }
 
 .mainWrapper {
-  padding-top: 30px;
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -60,13 +67,13 @@ body {
   width: 80%;
   max-width: 640px;
   z-index: 1;
+  height: 100%;
 }
 
 .container {
   align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   height: 100%;
 }
 
@@ -77,6 +84,7 @@ body {
   height: 60px;
   align-items: center;
   justify-content: center;
+  font-family: Helvetica, Arial;
   font-weight: bolder;
   font-size: 30px;
   color: $highlight-colour;
@@ -105,7 +113,7 @@ img {
 }
 
 .previousGuessesContainer {
-  margin-bottom: 120px;
+  margin-bottom: 100px;
   width: 100%;
 }
 
@@ -220,4 +228,46 @@ img {
 
 .submitButton:hover {
   opacity: 100%;
+}
+
+.gameEndScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.resultsMessage {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  color: $text-colour;
+  font-family: monospace;
+}
+
+.resultsEmoji {
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+.albumCover {
+  margin: 20px;
+  height: 250px;
+  width: 250px;
+}
+
+.songInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 24px;
+  color: $highlight-colour;
+  font-family: monospace;
+}
+
+.songName {
+  font-weight: bold;
+}
+
+.artistName {
+  color: $secondary-colour;
 }

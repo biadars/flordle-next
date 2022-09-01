@@ -77,6 +77,7 @@ export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
                 <ReactSearchAutocomplete
                     items={options}
                     onSelect={handleOnSelect}
+                    maxResults={3}
                     styling={{
                         height: '34px',
                         border: '1px solid #dcd6f7ff',
