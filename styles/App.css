@@ -1,47 +1,4 @@
 
-
-.inputContainer {
-  width: 100%;
-  margin-top: 50px;
-}
-
-.actionsContainer {
-  display: flex;
-  margin-top: 20px;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.skipButton {
-  width: 75px;
-  height: 40px;
-  color: white;
-  background-color: darkslategray;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  opacity: 80%;
-}
-
-.skipButton:hover {
-  opacity: 100%;
-}
-
-.submitButton {
-  width: 75px;
-  height: 40px;
-  color: white;
-  background-color: darkgreen;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  opacity: 80%;
-}
-
-.submitButton:hover {
-  opacity: 100%;
-}
-
 .gameEndScreen {
   display: flex;
   flex-direction: column;
