@@ -6,12 +6,13 @@ import {
     useSpotifyPlayer,
     useWebPlaybackSDKReady
 } from 'react-spotify-web-playback-sdk';
-import {PlayCircleFilledOutlined, PlayCircleOutline, PlayCircleOutlineOutlined} from '@material-ui/icons';
+import {PlayCircleOutlineOutlined} from '@material-ui/icons';
 import {StreamingProgressBar} from './streaming_progress_bar';
 
 interface Props {
     playbackDuration: number;
     setTrack: (value: Spotify.Track) => void;
+    setPlaybackReady: (value: boolean) => void;
 }
 
 export const LimitedDurationPlayback: VFC<Props> = (props: Props) => {
@@ -69,9 +70,12 @@ export const LimitedDurationPlayback: VFC<Props> = (props: Props) => {
         }
     }, [playbackState, props.playbackDuration, player, setMillisecondsElapsed, gameStarted, setGameStarted]);
 
+    useEffect(() => {
+        props.setPlaybackReady(webPlaybackSDKReady);
+    }, [props.setPlaybackReady, webPlaybackSDKReady]);
+
     return (
         <>
-            <ScaleLoader loading={!webPlaybackSDKReady} color={'#ffffff'}/>
             {webPlaybackSDKReady && (
                 <div className="webPlayback">
                     <StreamingProgressBar millisecondsElapsed={millisecondsElapsed}/>

@@ -4,6 +4,7 @@ import {WebPlaybackWrapper} from './web_playback_wrapper';
 import {PreviousGuesses} from './previous_guesses';
 import {Challenge} from '../models/challenge';
 import {Song} from '../models/song';
+import {ScaleLoader} from 'react-spinners';
 
 interface SongOption {
     id: number;
@@ -27,6 +28,8 @@ export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
     const [guessNumber, setGuessNumber] = useState(0);
     const [guesses, setGuesses] = useState<string[]>([]);
     const [options, setOptions] = useState<SongOption[]>([]);
+    const [playbackReady, setPlaybackReady] = useState(false);
+    const [isGameReady, setIsGameReady] = useState(false);
 
     useEffect(() => {
         const mapSongToOption = (song: Song) => {
@@ -37,6 +40,10 @@ export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
             setOptions(props.songs.map(mapSongToOption));
         }
     }, [props.songs, setOptions]);
+
+    useEffect(() => {
+        setIsGameReady(playbackReady && props.challenge !== undefined && options !== []);
+    }, [setIsGameReady, playbackReady, props.challenge, options]);
 
     const handleOnSelect = (item: SongOption) => {
         setSelectedOption(item);
@@ -71,37 +78,43 @@ export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
 
     return (
         <>
-            <div className="previousGuessesContainer">
-                <PreviousGuesses guesses={guesses}/>
-            </div>
-            <WebPlaybackWrapper token={props.token} playbackDuration={guessPlaybackDurations[guessNumber]} setTrack={props.setTrack}/>
-            <div className="inputContainer">
-                <ReactSearchAutocomplete
-                    items={options}
-                    onSelect={handleOnSelect}
-                    maxResults={3}
-                    styling={{
-                        height: '34px',
-                        border: '1px solid #dcd6f7ff',
-                        borderRadius: '4px',
-                        backgroundColor: '#f2f4ffff',
-                        boxShadow: 'none',
-                        hoverBackgroundColor: '#dcd6f7ff',
-                        color: '#9683EA',
-                        fontSize: '12px',
-                        fontFamily: 'Courier',
-                        iconColor: '#9683EA',
-                        lineColor: '#dcd6f7ff',
-                        placeholderColor: '#9683EA',
-                        clearIconMargin: '3px 8px 0 0',
-                        zIndex: 2,
-                    }}
-                />
-            </div>
-            <div className="actionsContainer">
-                <button className="skipButton" onClick={skipGuess}>SKIP</button>
-                <button className="submitButton" onClick={submitGuess} disabled={!selectedOption}>SUBMIT</button>
-            </div>
+            <ScaleLoader loading={!isGameReady} color={'#dcd6f7ff'}/>
+            {isGameReady && (
+                <div className="previousGuessesContainer">
+                    <PreviousGuesses guesses={guesses}/>
+                </div>
+            )}
+            <WebPlaybackWrapper token={props.token} playbackDuration={guessPlaybackDurations[guessNumber]} setTrack={props.setTrack} setPlaybackReady={setPlaybackReady}/>
+            {isGameReady && (
+                <>
+                    <div className="inputContainer">
+                        <ReactSearchAutocomplete
+                            items={options}
+                            onSelect={handleOnSelect}
+                            maxResults={3}
+                            styling={{
+                                height: '34px',
+                                border: '1px solid #dcd6f7ff',
+                                borderRadius: '4px',
+                                backgroundColor: '#f2f4ffff',
+                                boxShadow: 'none',
+                                hoverBackgroundColor: '#dcd6f7ff',
+                                color: '#9683EA',
+                                fontSize: '12px',
+                                fontFamily: 'Courier',
+                                iconColor: '#9683EA',
+                                lineColor: '#dcd6f7ff',
+                                placeholderColor: '#9683EA',
+                                clearIconMargin: '3px 8px 0 0',
+                                zIndex: 2,
+                            }}
+                        />
+                    </div>
+                    <div className="actionsContainer">
+                        <button className="skipButton" onClick={skipGuess}>SKIP</button>
+                        <button className="submitButton" onClick={submitGuess} disabled={!selectedOption}>SUBMIT</button>
+                    </div>
+                </> )}
         </>
     );
 };

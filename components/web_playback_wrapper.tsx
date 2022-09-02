@@ -6,6 +6,7 @@ type Props = {
   token: string;
   playbackDuration: number;
   setTrack: (value: Spotify.Track) => void;
+  setPlaybackReady: (value: boolean) => void;
 };
 
 export const WebPlaybackWrapper: VFC<Props> = (props: Props) => {
@@ -17,7 +18,7 @@ export const WebPlaybackWrapper: VFC<Props> = (props: Props) => {
                 initialDeviceName='flordle'
                 getOAuthToken={getAccessToken}
                 initialVolume={0.5}>
-                <LimitedDurationPlayback playbackDuration={props.playbackDuration} setTrack={props.setTrack}/>
+                <LimitedDurationPlayback playbackDuration={props.playbackDuration} setTrack={props.setTrack} setPlaybackReady={props.setPlaybackReady}/>
             </WebPlaybackSDK>
         </>
     );
