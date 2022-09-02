@@ -14,6 +14,7 @@ export const Game: VFC<Props> = (props: Props) => {
     const [challenge, setChallenge] = useState<Challenge | undefined>(undefined);
     const [songs, setSongs] = useState<Song[] | undefined>(undefined);
     const [outOfSongs, setOutOfSongs] = useState(false);
+    const [secondsUsed, setSecondsUsed] = useState(1);
 
     const getTodaysChallenge = () => {
         fetch('/api/challenge/todays_challenge')
@@ -50,8 +51,9 @@ export const Game: VFC<Props> = (props: Props) => {
                     songs={songs}
                     setTrack={setTrack}
                     setGameOver={setGameOver}
-                    setUserWon={setUserWon}/>}
-                {gameOver && <GameEndScreen track={track} userWon={userWon}/>}
+                    setUserWon={setUserWon}
+                    setSecondsUsed={setSecondsUsed}/>}
+                {gameOver && <GameEndScreen track={track} userWon={userWon} secondsUsed={secondsUsed}/>}
                 {outOfSongs && <div>That was all the Florence and Hozier songs, well done!</div>}
             </div>
         </div>

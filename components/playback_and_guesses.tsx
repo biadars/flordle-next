@@ -17,6 +17,7 @@ interface Props {
     setTrack: (value: Spotify.Track) => void;
     setGameOver: (value: boolean) => void;
     setUserWon: (value: boolean) => void;
+    setSecondsUsed: (value: number) => void;
 }
 
 export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
@@ -43,6 +44,7 @@ export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
 
     const goToNextGuess = () => {
         if (guessNumber < 5) {
+            props.setSecondsUsed(guessPlaybackDurations[guessNumber + 1]);
             setGuessNumber(guessNumber + 1);
         } else {
             props.setUserWon(false);

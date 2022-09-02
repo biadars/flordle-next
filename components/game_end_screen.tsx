@@ -4,6 +4,7 @@ import emoji from 'react-easy-emoji';
 interface Props {
     track: Spotify.Track | undefined;
     userWon: boolean | undefined;
+    secondsUsed: number;
 }
 export const GameEndScreen: VFC<Props> = (props: Props) => {
     const getResultEmoji = () => {
@@ -24,6 +25,9 @@ export const GameEndScreen: VFC<Props> = (props: Props) => {
                 <span className="resultsEmoji">{getResultEmoji()}</span>
                 <span>{getResultsMessage()}</span>
             </div>
+            {props.userWon && (
+                <div className="resultsMessage">You got it in {props.secondsUsed} {props.secondsUsed > 1 ? 'seconds' : 'second'}!</div>
+            )}
             {props.track && props.track.album.images[0].url ? (
                 <img
                     src={props.track.album.images[0].url}
