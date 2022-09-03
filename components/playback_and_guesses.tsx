@@ -11,6 +11,17 @@ interface SongOption {
     name: string;
 }
 
+export enum GuessState {
+    SKIP,
+    INCORRECT,
+    CORRECT
+}
+
+export interface Guess {
+    song?: string;
+    state: GuessState;
+}
+
 interface Props {
     token: string;
     challenge: Challenge;
@@ -19,6 +30,8 @@ interface Props {
     setGameOver: (value: boolean) => void;
     setUserWon: (value: boolean) => void;
     setSecondsUsed: (value: number) => void;
+    guesses: Guess[];
+    setGuesses: (value: Guess[]) => void;
 }
 
 export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
@@ -26,7 +39,6 @@ export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
 
     const [selectedOption, setSelectedOption] = useState<SongOption | undefined>(undefined);
     const [guessNumber, setGuessNumber] = useState(0);
-    const [guesses, setGuesses] = useState<string[]>([]);
     const [options, setOptions] = useState<SongOption[]>([]);
     const [playbackReady, setPlaybackReady] = useState(false);
     const [isGameReady, setIsGameReady] = useState(false);
@@ -60,18 +72,21 @@ export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
     };
 
     const skipGuess = () => {
-        setGuesses([...guesses, 'SKIPPED']);
+        props.setGuesses([...props.guesses, {state: GuessState.SKIP}]);
         goToNextGuess();
     };
 
     const submitGuess = () => {
+        const isGuessCorrect = selectedOption?.id === props.challenge.SongId;
+        const newGuess = {
+            song: selectedOption?.name,
+            state: isGuessCorrect ? GuessState.CORRECT : GuessState.INCORRECT
+        };
+        props.setGuesses([...props.guesses, newGuess]);
         if (selectedOption?.id === props.challenge.SongId) {
             props.setUserWon(true);
             props.setGameOver(true);
         } else {
-            if (selectedOption) {
-                setGuesses([...guesses, selectedOption.name]);
-            }
             goToNextGuess();
         }
     };
@@ -81,7 +96,7 @@ export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
             <ScaleLoader loading={!isGameReady} color={'#dcd6f7ff'}/>
             {isGameReady && (
                 <div className="previousGuessesContainer">
-                    <PreviousGuesses guesses={guesses}/>
+                    <PreviousGuesses guesses={props.guesses}/>
                 </div>
             )}
             <WebPlaybackWrapper token={props.token} playbackDuration={guessPlaybackDurations[guessNumber]} setTrack={props.setTrack} setPlaybackReady={setPlaybackReady}/>
