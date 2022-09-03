@@ -1,22 +1,23 @@
 import React, {VFC} from 'react';
 import {CheckBoxOutlineBlank, Close} from '@material-ui/icons';
+import {Guess, GuessState} from './playback_and_guesses';
 
 interface Props {
-    guesses: string[];
+    guesses: Guess[];
 }
 
 export const PreviousGuesses: VFC<Props> = (props: Props) => {
     const guessNumbers = [0, 1, 2, 3, 4, 5];
 
     const getGuessForNumber = (guessNumber: number) => {
-        return props.guesses.length >= guessNumber ? props.guesses[guessNumber] : '';
+        return props.guesses.length >= guessNumber ? props.guesses[guessNumber] : null;
     };
 
-    const isSkip = (guess: string) => {
-        return guess === 'SKIPPED';
+    const isSkip = (guess: Guess) => {
+        return guess.state === GuessState.SKIP;
     };
 
-    const renderGuessSymbol = (guess: string) => {
+    const renderGuessSymbol = (guess: Guess) => {
         if (!guess) {
             return;
         }
@@ -29,10 +30,14 @@ export const PreviousGuesses: VFC<Props> = (props: Props) => {
     const renderGuess = (guessNumber: number) => {
         const guess = getGuessForNumber(guessNumber);
 
+        if (!guess) {
+            return <div className="guess" key={guessNumber}/>;
+        }
+
         return <div className="guess" key={guessNumber}>
             <div className={isSkip(guess) ? 'skippedGuess' : 'guessText'}>
                 <span className="guessSymbol">{renderGuessSymbol(guess)}</span>
-                {guess}
+                {isSkip(guess) ? 'SKIPPED' : guess.song}
             </div>
         </div>;
     };
