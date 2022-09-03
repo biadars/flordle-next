@@ -39,9 +39,14 @@ export class ChallengeRepository {
             return null;
         }
 
-        const todaysDate = moment().startOf('day').toDate();
-        return this.client.challenge.create({data: {Date: todaysDate, SongId: song.Id}})
+        return this.client.challenge.count()
+            .then(previousChallengesNumber => this.createChallengeWithSongAndNumber(song, previousChallengesNumber + 1))
             .then(this.markSongAsUsedAndReturnChallenge);
+    };
+
+    private createChallengeWithSongAndNumber = (song: Song, number: number) => {
+        const todaysDate = moment().utc().startOf('day').toDate();
+        return this.client.challenge.create({data: {Date: todaysDate, SongId: song.Id, Number: number}});
     };
 
     private markSongAsUsedAndReturnChallenge = (challenge: Challenge) => {

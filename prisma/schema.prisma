@@ -11,6 +11,7 @@ model Challenge {
   Id     Int      @id @default(autoincrement())
   SongId Int
   Date   DateTime @db.Date
+  Number Int
   Song   Song     @relation(fields: [SongId], references: [Id], onDelete: NoAction, onUpdate: NoAction)
 }
 
