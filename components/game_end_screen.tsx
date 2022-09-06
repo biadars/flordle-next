@@ -1,17 +1,40 @@
-import React, {VFC} from 'react';
+import React, {useEffect, VFC} from 'react';
 import emoji from 'react-easy-emoji';
 import {ShareButton} from './share_button';
 import {Challenge} from '../models/challenge';
 import {Guess} from './playback_and_guesses';
+import {useCookies} from 'react-cookie';
+import {Progress} from '../models/progress';
 
 interface Props {
-    track: Spotify.Track | undefined;
-    userWon: boolean | undefined;
+    track: Spotify.Track;
+    userWon: boolean;
     secondsUsed: number;
     challenge: Challenge;
     guesses: Guess[];
 }
 export const GameEndScreen: VFC<Props> = (props: Props) => {
+
+    const [cookies, setCookie] = useCookies(['flordleProgress']);
+
+    useEffect(() => {
+        const saveProgressForTodaysChallenge = () => {
+            const progress: Progress = {
+                lastCompletedChallenge: props.challenge.Number,
+                userWon: props.userWon,
+                secondsUsed: props.secondsUsed,
+                guesses: props.guesses,
+                track: props.track
+            };
+
+            setCookie('flordleProgress', progress);
+        };
+
+        if (cookies['flordleProgress']?.lastCompletedChallenge !== props.challenge.Number) {
+            saveProgressForTodaysChallenge();
+        }
+    }, [props, cookies, setCookie]);
+
     const getResultEmoji = () => {
         return props.userWon
             ? emoji('🎉')
