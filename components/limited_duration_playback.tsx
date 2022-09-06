@@ -1,5 +1,4 @@
 import React, {useEffect, useState, VFC} from 'react';
-import {ScaleLoader} from 'react-spinners';
 import {
     usePlaybackState,
     usePlayerDevice,

@@ -3,6 +3,7 @@ import {Guess, PlaybackAndGuesses} from './playback_and_guesses';
 import {GameEndScreen} from './game_end_screen';
 import {Challenge} from '../models/challenge';
 import {Song} from '../models/song';
+import {useCookies} from 'react-cookie';
 
 interface Props {
     token: string;
@@ -17,6 +18,7 @@ export const Game: VFC<Props> = (props: Props) => {
     const [outOfSongs, setOutOfSongs] = useState(false);
     const [secondsUsed, setSecondsUsed] = useState(1);
     const [guesses, setGuesses] = useState<Guess[]>([]);
+    const [cookies] = useCookies(['flordleProgress']);
 
     const getTodaysChallenge = () => {
         fetch('/api/challenge/todays_challenge')
@@ -44,6 +46,17 @@ export const Game: VFC<Props> = (props: Props) => {
         getAllSongs();
     }, [setChallenge, setSongs]);
 
+    useEffect(() => {
+        if (cookies['flordleProgress'] && cookies['flordleProgress'].lastCompletedChallenge === challenge?.Number) {
+            const progress = cookies['flordleProgress'];
+            setUserWon(progress.userWon);
+            setSecondsUsed(progress.secondsUsed);
+            setGuesses(progress.guesses);
+            setTrack(progress.track);
+            setGameOver(true);
+        }
+    }, [cookies, challenge, setUserWon, setSecondsUsed, setGuesses, setTrack, setGameOver]);
+
     return (
         <div className="container">
             <div className="gameHeader">flordle</div>
@@ -57,7 +70,7 @@ export const Game: VFC<Props> = (props: Props) => {
                     setSecondsUsed={setSecondsUsed}
                     guesses={guesses}
                     setGuesses={setGuesses}/>}
-                {gameOver && challenge && <GameEndScreen track={track}
+                {gameOver && challenge && track && userWon !== undefined && <GameEndScreen track={track}
                     userWon={userWon}
                     secondsUsed={secondsUsed} 
                     challenge={challenge}
