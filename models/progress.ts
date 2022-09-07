@@ -2,7 +2,8 @@ import {Guess} from '../components/playback_and_guesses';
 
 export interface Progress {
     lastCompletedChallenge: number;
-    lastChallengeStats: LastChallengeStats
+    lastChallengeStats: LastChallengeStats;
+    overallStats: { [secondsUsed: number]: number };
 }
 
 export interface LastChallengeStats {

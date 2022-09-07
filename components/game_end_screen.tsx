@@ -18,16 +18,24 @@ export const GameEndScreen: VFC<Props> = (props: Props) => {
     const [cookies, setCookie] = useCookies(['flordleProgress']);
 
     useEffect(() => {
+        const updateOverallStats = () => {
+            const overallStats = cookies.flordleProgress?.overallStats ?? {1: 0, 2: 0, 4: 0, 7: 0, 11: 0, 16: 0};
+            overallStats[props.secondsUsed] += 1;
+            return overallStats;
+        };
+
         const saveProgressForTodaysChallenge = () => {
-            const lastChallengeStats: LastChallengeStats = {
+            const lastChallengeStats = {
                 userWon: props.userWon,
                 secondsUsed: props.secondsUsed,
                 guesses: props.guesses,
                 track: props.track
             };
+            const overallStats = updateOverallStats();
             const progress: Progress = {
                 lastCompletedChallenge: props.challenge.Number,
-                lastChallengeStats
+                lastChallengeStats,
+                overallStats
             };
 
             setCookie('flordleProgress', progress);
