@@ -12,12 +12,3 @@ export interface LastChallengeStats {
     guesses: Guess[];
     track: Spotify.Track;
 }
-
-export interface OverallStats {
-    guessesInOneSecond: number;
-    guessesInTwoSeconds: number;
-    guessesInFourSeconds: number;
-    guessesInSevenSeconds: number;
-    guessesInElevenSeconds: number;
-    guessesInSixteenSeconds: number;
-}

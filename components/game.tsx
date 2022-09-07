@@ -4,6 +4,8 @@ import {GameEndScreen} from './game_end_screen';
 import {Challenge} from '../models/challenge';
 import {Song} from '../models/song';
 import {useCookies} from 'react-cookie';
+import {StatsButton} from './stats_button';
+import Modal from 'react-modal';
 
 interface Props {
     token: string;
@@ -60,7 +62,15 @@ export const Game: VFC<Props> = (props: Props) => {
 
     return (
         <div className="container">
-            <div className="gameHeader">flordle</div>
+            <div className="gameHeader">
+                <div className="headerContent">
+                    <span><StatsButton/></span>
+                    flordle
+                    <span className="statsButtonContainer">
+                        <StatsButton/>
+                    </span>
+                </div>
+            </div>
             <div className="mainWrapper">
                 {!gameOver && challenge && songs && <PlaybackAndGuesses token={props.token}
                     challenge={challenge}
