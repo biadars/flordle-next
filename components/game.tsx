@@ -49,10 +49,10 @@ export const Game: VFC<Props> = (props: Props) => {
     useEffect(() => {
         if (cookies['flordleProgress'] && cookies['flordleProgress'].lastCompletedChallenge === challenge?.Number) {
             const progress = cookies['flordleProgress'];
-            setUserWon(progress.userWon);
-            setSecondsUsed(progress.secondsUsed);
-            setGuesses(progress.guesses);
-            setTrack(progress.track);
+            setUserWon(progress.lastChallengeStats.userWon);
+            setSecondsUsed(progress.lastChallengeStats.secondsUsed);
+            setGuesses(progress.lastChallengeStats.guesses);
+            setTrack(progress.lastChallengeStats.track);
             setGameOver(true);
         }
     }, [cookies, challenge, setUserWon, setSecondsUsed, setGuesses, setTrack, setGameOver]);

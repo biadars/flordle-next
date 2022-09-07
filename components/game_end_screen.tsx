@@ -4,7 +4,7 @@ import {ShareButton} from './share_button';
 import {Challenge} from '../models/challenge';
 import {Guess} from './playback_and_guesses';
 import {useCookies} from 'react-cookie';
-import {Progress} from '../models/progress';
+import {LastChallengeStats, Progress} from '../models/progress';
 
 interface Props {
     track: Spotify.Track;
@@ -19,12 +19,15 @@ export const GameEndScreen: VFC<Props> = (props: Props) => {
 
     useEffect(() => {
         const saveProgressForTodaysChallenge = () => {
-            const progress: Progress = {
-                lastCompletedChallenge: props.challenge.Number,
+            const lastChallengeStats: LastChallengeStats = {
                 userWon: props.userWon,
                 secondsUsed: props.secondsUsed,
                 guesses: props.guesses,
                 track: props.track
+            };
+            const progress: Progress = {
+                lastCompletedChallenge: props.challenge.Number,
+                lastChallengeStats
             };
 
             setCookie('flordleProgress', progress);
