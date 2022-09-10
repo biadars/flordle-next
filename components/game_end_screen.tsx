@@ -4,7 +4,7 @@ import {ShareButton} from './share_button';
 import {Challenge} from '../models/challenge';
 import {Guess} from './playback_and_guesses';
 import {useCookies} from 'react-cookie';
-import {LastChallengeStats, OverallStats, Progress} from '../models/progress';
+import {OverallStats, Progress} from '../models/progress';
 
 interface Props {
     track: Spotify.Track;
@@ -18,8 +18,8 @@ export const GameEndScreen: VFC<Props> = (props: Props) => {
     const [cookies, setCookie] = useCookies(['flordleProgress']);
 
     useEffect(() => {
-        const updateOverallStats = () => {
-            const overallStats: OverallStats = cookies.flordleProgress?.overallStats ?? {
+        const initialiseStats = () => {
+            return {
                 guessesInOneSecond: 0,
                 guessesInTwoSeconds: 0,
                 guessesInFourSeconds: 0,
@@ -30,14 +30,9 @@ export const GameEndScreen: VFC<Props> = (props: Props) => {
                 currentStreak: 0,
                 maxStreak: 0
             };
-
-
-            if (!props.userWon) {
-                overallStats.failedGuesses += 1;
-                overallStats.currentStreak = 0;
-                return overallStats;
-            }
-
+        };
+        
+        const updateOverallStatsWithWin = (overallStats: OverallStats) => {
             overallStats.currentStreak += 1;
 
             if (overallStats.currentStreak > overallStats.maxStreak) {
@@ -61,6 +56,21 @@ export const GameEndScreen: VFC<Props> = (props: Props) => {
             }
 
             return overallStats;
+        };
+        const updateOverallStatsWithLoss = (overallStats: OverallStats) => {
+            overallStats.failedGuesses += 1;
+            overallStats.currentStreak = 0;
+            return overallStats;
+        };
+
+        const updateOverallStats = () => {
+            const overallStats: OverallStats = cookies.flordleProgress?.overallStats ?? initialiseStats();
+
+            if (props.userWon) {
+                return updateOverallStatsWithWin(overallStats);
+            }
+
+            return updateOverallStatsWithLoss(overallStats);
         };
 
         const saveProgressForTodaysChallenge = () => {
