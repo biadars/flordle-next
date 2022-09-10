@@ -2,6 +2,7 @@ import React, {useEffect, useState, VFC} from 'react';
 import Modal from 'react-modal';
 import {useCookies} from 'react-cookie';
 import dynamic from 'next/dynamic';
+import {OverallStats} from '../models/progress';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface StatsDialogProps {
@@ -11,18 +12,39 @@ interface StatsDialogProps {
 
 export const StatsDialog: VFC<StatsDialogProps> = (props: StatsDialogProps) => {
     const [cookies] = useCookies(['flordleProgress']);
-    const [series, setSeries] = useState({name: 'Guesses', data: []});
+    const [data, setData] = useState<number[]>([]);
+    const [correctGuesses, setCorrectGuesses] = useState(0);
+    const [totalGuesses, setTotalGuesses] = useState(0);
+    const [correctPercentage, setCorrectPercentage] = useState(0);
+    const [currentStreak, setCurrentStreak] = useState(0);
+    const [maxStreak, setMaxStreak] = useState(0);
 
-    const options = {
+    const labelFormatter = (value: number, ) => {
+        if (value === 0) {
+            return '';
+        }
+        return value;
+    };
+
+    const graphOptions = {
         plotOptions: {
             bar: {
                 horizontal: false,
-                columnWidth: '55%',
-                endingShape: 'rounded'
+                columnWidth: '75',
+                endingShape: 'rounded',
+                dataLabels: {
+                    position: 'top',
+                }
             },
         },
         dataLabels: {
-            enabled: false
+            enabled: true,
+            offsetY: -20,
+            formatter: labelFormatter,
+            style: {
+                fontSize: '12px',
+                colors: ['#dcd6f7ff']
+            }
         },
         stroke: {
             width: 2,
@@ -53,7 +75,7 @@ export const StatsDialog: VFC<StatsDialogProps> = (props: StatsDialogProps) => {
             pattern: {
                 style: 'horizontalLines',
                 strokeWidth: 10,
-                height: 7
+                height: 7,
             }
         },
         grid: {
@@ -63,7 +85,10 @@ export const StatsDialog: VFC<StatsDialogProps> = (props: StatsDialogProps) => {
             toolbar: {
                 show: false
             }
-        }
+        },
+        tooltip: {
+            enabled: false
+        },
     };
 
     const customStyles = {
@@ -79,9 +104,30 @@ export const StatsDialog: VFC<StatsDialogProps> = (props: StatsDialogProps) => {
     };
 
     useEffect(() => {
-        const stats = Object.values(cookies['flordleProgress']?.overallStats ?? {});
-        console.log(stats);
-    }, [cookies]);
+        const progress = cookies['flordleProgress'];
+        if (progress) {
+            const overallStats = progress.overallStats as OverallStats;
+            setData([
+                overallStats.guessesInOneSecond,
+                overallStats.guessesInTwoSeconds,
+                overallStats.guessesInFourSeconds,
+                overallStats.guessesInSevenSeconds,
+                overallStats.guessesInElevenSeconds,
+                overallStats.guessesInSixteenSeconds,
+                overallStats.failedGuesses
+            ]);
+            const correctGuesses = overallStats.guessesInOneSecond + overallStats.guessesInTwoSeconds
+                + overallStats.guessesInFourSeconds + overallStats.guessesInSevenSeconds
+                + overallStats.guessesInElevenSeconds + overallStats.guessesInSixteenSeconds;
+            const totalGuesses = correctGuesses + overallStats.failedGuesses;
+
+            setCorrectGuesses(correctGuesses);
+            setTotalGuesses(totalGuesses);
+            setCorrectPercentage(correctGuesses * 100 / totalGuesses);
+            setCurrentStreak(overallStats.currentStreak);
+            setMaxStreak(overallStats.maxStreak);
+        }
+    }, [cookies, setData, setCurrentStreak, setMaxStreak, setCorrectGuesses, setTotalGuesses, setCorrectPercentage]);
 
     return <Modal
         isOpen={props.isModalOpen}
@@ -92,7 +138,24 @@ export const StatsDialog: VFC<StatsDialogProps> = (props: StatsDialogProps) => {
     >
         <div className="statsModal">
             <h2 className="statsHeader">Stats</h2>
-            <ReactApexChart  options={options} series={series} type="bar" height={350} />
+            <div className="chartContainer">
+                <ReactApexChart  options={graphOptions} series={[{name: 'Guesses', data}]} type="bar" height={300} />
+                <div className="chartTitle">Your score distribution</div>
+            </div>
+            <div className="summaryStatsSection">
+                <div className="summaryStat">
+                    <div className="headlineStat">{correctGuesses}/{totalGuesses}</div>
+                    <div className="statExplanation">Correct</div>
+                </div>
+                <div className="summaryStat">
+                    <div className="headlineStat">{correctPercentage}%</div>
+                    <div className="statExplanation">Correct %</div>
+                </div>
+                <div className="summaryStat">
+                    <div className="headlineStat">{currentStreak}:{maxStreak}</div>
+                    <div className="statExplanation">Current : Max<br/>streak</div>
+                </div>
+            </div>
         </div>
     </Modal>;
 };

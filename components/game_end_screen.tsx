@@ -4,7 +4,7 @@ import {ShareButton} from './share_button';
 import {Challenge} from '../models/challenge';
 import {Guess} from './playback_and_guesses';
 import {useCookies} from 'react-cookie';
-import {LastChallengeStats, Progress} from '../models/progress';
+import {LastChallengeStats, OverallStats, Progress} from '../models/progress';
 
 interface Props {
     track: Spotify.Track;
@@ -19,8 +19,47 @@ export const GameEndScreen: VFC<Props> = (props: Props) => {
 
     useEffect(() => {
         const updateOverallStats = () => {
-            const overallStats = cookies.flordleProgress?.overallStats ?? {1: 0, 2: 0, 4: 0, 7: 0, 11: 0, 16: 0};
-            overallStats[props.secondsUsed] += 1;
+            const overallStats: OverallStats = cookies.flordleProgress?.overallStats ?? {
+                guessesInOneSecond: 0,
+                guessesInTwoSeconds: 0,
+                guessesInFourSeconds: 0,
+                guessesInSevenSeconds: 0,
+                guessesInElevenSeconds: 0,
+                guessesInSixteenSeconds: 0,
+                failedGuesses: 0,
+                currentStreak: 0,
+                maxStreak: 0
+            };
+
+
+            if (!props.userWon) {
+                overallStats.failedGuesses += 1;
+                overallStats.currentStreak = 0;
+                return overallStats;
+            }
+
+            overallStats.currentStreak += 1;
+
+            if (overallStats.currentStreak > overallStats.maxStreak) {
+                overallStats.maxStreak = overallStats.currentStreak;
+            }
+
+            if (props.secondsUsed === 1) {
+                overallStats.guessesInOneSecond += 1;
+            }
+            if (props.secondsUsed === 2) {
+                overallStats.guessesInTwoSeconds += 1;
+            }
+            if (props.secondsUsed === 4) {
+                overallStats.guessesInFourSeconds += 1;
+            }
+            if (props.secondsUsed === 11) {
+                overallStats.guessesInElevenSeconds += 1;
+            }
+            if (props.secondsUsed === 16) {
+                overallStats.guessesInSixteenSeconds += 1;
+            }
+
             return overallStats;
         };
 

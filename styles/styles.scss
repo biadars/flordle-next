@@ -1,7 +1,7 @@
 $background-colour: #362388ff;
 $secondary-colour: #c2abd9;
 $main-colour: #9683EA;
-$highlight-colour: #dcd6f7ff;
+$highlight-colour: #dcd6f7;
 $text-colour: #f2f4ffff;
 
 html,
@@ -45,6 +45,11 @@ body {
 
 .ReactModal__Overlay--before-close{
   opacity: 0;
+}
+
+.ReactModal__Content {
+  padding: 0 !important;
+  width: 330px;
 }
 
 .appHeader {
@@ -322,4 +327,42 @@ img {
   display: flex;
   justify-content: center;
   font-size: 20px;
+}
+
+.chartContainer {
+  border-bottom: 1px solid #494464;
+}
+
+.chartTitle {
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+.summaryStatsSection {
+  display: flex;
+  flex-basis: 0;
+  margin: 30px 20px;
+  justify-content: space-evenly;
+}
+
+.summaryStat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.headlineStat {
+  font-size: 18px;
+  font-family: monospace;
+  font-weight: bolder;
+}
+
+.statExplanation {
+  font-size: 12px;
+  font-family: Helvetica, Arial;
+  display: flex;
+  height: 20px
 }
