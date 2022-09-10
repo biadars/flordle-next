@@ -4,7 +4,7 @@ import {ShareButton} from './share_button';
 import {Challenge} from '../models/challenge';
 import {Guess} from './playback_and_guesses';
 import {useCookies} from 'react-cookie';
-import {Progress} from '../models/progress';
+import {OverallStats, Progress} from '../models/progress';
 
 interface Props {
     track: Spotify.Track;
@@ -18,13 +18,73 @@ export const GameEndScreen: VFC<Props> = (props: Props) => {
     const [cookies, setCookie] = useCookies(['flordleProgress']);
 
     useEffect(() => {
+        const initialiseStats = () => {
+            return {
+                guessesInOneSecond: 0,
+                guessesInTwoSeconds: 0,
+                guessesInFourSeconds: 0,
+                guessesInSevenSeconds: 0,
+                guessesInElevenSeconds: 0,
+                guessesInSixteenSeconds: 0,
+                failedGuesses: 0,
+                currentStreak: 0,
+                maxStreak: 0
+            };
+        };
+        
+        const updateOverallStatsWithWin = (overallStats: OverallStats) => {
+            overallStats.currentStreak += 1;
+
+            if (overallStats.currentStreak > overallStats.maxStreak) {
+                overallStats.maxStreak = overallStats.currentStreak;
+            }
+
+            if (props.secondsUsed === 1) {
+                overallStats.guessesInOneSecond += 1;
+            }
+            if (props.secondsUsed === 2) {
+                overallStats.guessesInTwoSeconds += 1;
+            }
+            if (props.secondsUsed === 4) {
+                overallStats.guessesInFourSeconds += 1;
+            }
+            if (props.secondsUsed === 11) {
+                overallStats.guessesInElevenSeconds += 1;
+            }
+            if (props.secondsUsed === 16) {
+                overallStats.guessesInSixteenSeconds += 1;
+            }
+
+            return overallStats;
+        };
+        const updateOverallStatsWithLoss = (overallStats: OverallStats) => {
+            overallStats.failedGuesses += 1;
+            overallStats.currentStreak = 0;
+            return overallStats;
+        };
+
+        const updateOverallStats = () => {
+            const overallStats: OverallStats = cookies.flordleProgress?.overallStats ?? initialiseStats();
+
+            if (props.userWon) {
+                return updateOverallStatsWithWin(overallStats);
+            }
+
+            return updateOverallStatsWithLoss(overallStats);
+        };
+
         const saveProgressForTodaysChallenge = () => {
-            const progress: Progress = {
-                lastCompletedChallenge: props.challenge.Number,
+            const lastChallengeStats = {
                 userWon: props.userWon,
                 secondsUsed: props.secondsUsed,
                 guesses: props.guesses,
                 track: props.track
+            };
+            const overallStats = updateOverallStats();
+            const progress: Progress = {
+                lastCompletedChallenge: props.challenge.Number,
+                lastChallengeStats,
+                overallStats
             };
 
             setCookie('flordleProgress', progress);

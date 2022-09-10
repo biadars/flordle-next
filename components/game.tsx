@@ -4,6 +4,8 @@ import {GameEndScreen} from './game_end_screen';
 import {Challenge} from '../models/challenge';
 import {Song} from '../models/song';
 import {useCookies} from 'react-cookie';
+import {StatsButton} from './stats_button';
+import Modal from 'react-modal';
 
 interface Props {
     token: string;
@@ -49,17 +51,26 @@ export const Game: VFC<Props> = (props: Props) => {
     useEffect(() => {
         if (cookies['flordleProgress'] && cookies['flordleProgress'].lastCompletedChallenge === challenge?.Number) {
             const progress = cookies['flordleProgress'];
-            setUserWon(progress.userWon);
-            setSecondsUsed(progress.secondsUsed);
-            setGuesses(progress.guesses);
-            setTrack(progress.track);
+            console.log(progress.overallStats);
+            setUserWon(progress.lastChallengeStats.userWon);
+            setSecondsUsed(progress.lastChallengeStats.secondsUsed);
+            setGuesses(progress.lastChallengeStats.guesses);
+            setTrack(progress.lastChallengeStats.track);
             setGameOver(true);
         }
     }, [cookies, challenge, setUserWon, setSecondsUsed, setGuesses, setTrack, setGameOver]);
 
     return (
         <div className="container">
-            <div className="gameHeader">flordle</div>
+            <div className="gameHeader">
+                <div className="headerContent">
+                    <span><StatsButton/></span>
+                    flordle
+                    <span className="statsButtonContainer">
+                        <StatsButton/>
+                    </span>
+                </div>
+            </div>
             <div className="mainWrapper">
                 {!gameOver && challenge && songs && <PlaybackAndGuesses token={props.token}
                     challenge={challenge}
