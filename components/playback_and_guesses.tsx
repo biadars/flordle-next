@@ -115,7 +115,7 @@ export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
                                 boxShadow: 'none',
                                 hoverBackgroundColor: '#dcd6f7ff',
                                 color: '#9683EA',
-                                fontSize: '12px',
+                                fontSize: '16px',
                                 fontFamily: 'Courier',
                                 iconColor: '#9683EA',
                                 lineColor: '#dcd6f7ff',
