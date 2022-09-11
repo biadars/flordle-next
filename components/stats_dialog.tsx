@@ -3,7 +3,6 @@ import Modal from 'react-modal';
 import {useCookies} from 'react-cookie';
 import dynamic from 'next/dynamic';
 import {OverallStats} from '../models/progress';
-import {CloseOutlined} from '@material-ui/icons';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface StatsDialogProps {

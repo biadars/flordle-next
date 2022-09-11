@@ -6,6 +6,7 @@ import {Song} from '../models/song';
 import {useCookies} from 'react-cookie';
 import {StatsButton} from './stats_button';
 import Modal from 'react-modal';
+import {InfoButton} from './info_button';
 
 interface Props {
     token: string;
@@ -64,7 +65,7 @@ export const Game: VFC<Props> = (props: Props) => {
         <div className="container">
             <div className="gameHeader">
                 <div className="headerContent">
-                    <span><StatsButton/></span>
+                    <span><InfoButton/></span>
                     flordle
                     <span className="statsButtonContainer">
                         <StatsButton/>
