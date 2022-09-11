@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import {useCookies} from 'react-cookie';
 import dynamic from 'next/dynamic';
 import {OverallStats} from '../models/progress';
+import {CloseOutlined} from '@material-ui/icons';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface StatsDialogProps {
@@ -137,7 +138,10 @@ export const StatsDialog: VFC<StatsDialogProps> = (props: StatsDialogProps) => {
         closeTimeoutMS={2000}
     >
         <div className="statsModal">
-            <h2 className="statsHeader">Stats</h2>
+            <div className="statsHeader">
+                <span className="headerText">STATS</span>
+                <button className="closeButton" onClick={props.closeModal}><CloseOutlined fontSize="inherit"/></button>
+            </div>
             <div className="chartContainer">
                 <ReactApexChart  options={graphOptions} series={[{name: 'Guesses', data}]} type="bar" height={300} />
                 <div className="chartTitle">Your score distribution</div>

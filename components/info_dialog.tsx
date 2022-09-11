@@ -1,5 +1,6 @@
 import React, {VFC} from 'react';
 import Modal from 'react-modal';
+import {CloseOutlined} from '@material-ui/icons';
 
 interface Props {
     isModalOpen: boolean;
@@ -25,13 +26,18 @@ export const InfoDialog: VFC<Props> = (props: Props) => {
         style={customStyles}
         closeTimeoutMS={2000}
     >
-        <div className="infoModal">
-            <div className="statsHeader">ABOUT</div>
-            <div className="infoContainer">
-                Each daily flordle features a clip from a Hozier or Florence and the Machine song.
+        <div>
+            <div className="statsHeader">
+                <span className="headerText">ABOUT</span>
+                <button className="closeButton" onClick={props.closeModal}><CloseOutlined fontSize="inherit"/></button>
             </div>
-            <div className="infoContainer">
-                Guess in as few tries as possible, and come back the next day for a new song.
+            <div className="infoModal">
+                <div className="infoContainer">
+                    Each daily flordle features a clip from a Hozier or Florence and the Machine song.
+                </div>
+                <div className="infoContainer">
+                    Guess in as few tries as possible, and come back the next day for a new song.
+                </div>
             </div>
         </div>
     </Modal>;
