@@ -45,7 +45,7 @@ export const PlaybackAndGuesses: VFC<Props> = (props: Props) => {
 
     useEffect(() => {
         const mapSongToOption = (song: Song) => {
-            return { id: song.Id, name: `${song.Artist} - ${song.Title}` };
+            return { id: song.Id, name: `${song.Title} - ${song.Artist}` };
         };
 
         if (props.songs) {
