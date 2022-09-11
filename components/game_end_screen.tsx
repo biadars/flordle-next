@@ -87,7 +87,7 @@ export const GameEndScreen: VFC<Props> = (props: Props) => {
                 overallStats
             };
 
-            setCookie('flordleProgress', progress);
+            setCookie('flordleProgress', progress, {expires: new Date(2038, 1, 1)});
         };
 
         if (cookies['flordleProgress']?.lastCompletedChallenge !== props.challenge.Number) {

@@ -105,6 +105,7 @@ export const StatsDialog: VFC<StatsDialogProps> = (props: StatsDialogProps) => {
 
     useEffect(() => {
         const progress = cookies['flordleProgress'];
+        console.log(progress);
         if (progress) {
             const overallStats = progress.overallStats as OverallStats;
             setData([
