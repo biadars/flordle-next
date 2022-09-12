@@ -31,11 +31,13 @@ export const LimitedDurationPlayback: VFC<Props> = (props: Props) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: body}).then();
+            body: body})
+            .then(() => player?.resume());
     };
 
     const resumePlayback = () => {
         if (gameStarted) {
+            console.log('resuming');
             player?.resume().then();
         } else {
             startPlayingSong();
