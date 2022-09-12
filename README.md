@@ -1,44 +1,23 @@
-# Spotify Web Playback SDK Example by Next.js and TypeScript
-This is an example app that is rewritten from the official [Spotify Web Playback SDK Javascript Tutorial](https://github.com/spotify/spotify-web-playback-sdk-example) with **Next.js** and **Typescript**.
-
-## Using your own credentials
-You will need to register your app and get your own credentials from the
-[Spotify for Developers Dashboard](https://developer.spotify.com/dashboard/)
-
-To do so, go to your Spotify for Developers Dashboard, create your
-application and register the following callback URI:
-
-`http://localhost:5000/api/auth/callback`
-
-Once you have created your app, create a file called `.env` in the root folder
-of the repository with your Spotify credentials:
-
-```bash
-SPOTIFY_CLIENT_ID='my_client_id'
-SPOTIFY_CLIENT_SECRET='my_client_secret'
-```
+# flordle
+This is a song guessing game based off of heardle, specifically for Hozier and Florence and the Machine songs.
 
 ## Installation
-
-These examples run on Node.js. On its
-[website](http://www.nodejs.org/download/) you can find instructions on how to
-install it.
-
-Once installed, clone the repository and install its dependencies running:
-
-```bash
-npm install
-```
-
-## Running the example
-
-Start both client and server with the following command:
-
-```bash
-npm run dev
-```
-
-The React application will start on `http://localhost:5000`
-
-## Related articles
-- "[Next.js + TypeScript で Spotify Web Playback SDK の公式サンプルを書き直してみた](https://zenn.dev/ossamoon/articles/ef20bf19284fd8)"(zenn.dev)
+To run your own version of this:
+1. Set up a heroku app using this repository (or otherwise setup hosting and a database)
+2. Set up a spotify app using the [spotify developer portal](https://developer.spotify.com/)
+3. Create your own .env file containing:
+    * Your spotify credentials: SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, and SPOTIFY_REDIRECT_URI
+    * Your database credentials: DATABASE_URL
+4. Populate your database with songs of your choice using commands of the format:
+   ```
+   INSERT INTO "Song" ("Artist", "Title", "SpotifyUri") VALUES ('Hozier', 'Take Me To Church', 'spotify:track:70LrxJ5u19umvrXbC19g20');
+   ```
+   You can obtain the spotify URI in the spotify desktop app - open the actions menu for a song, hold down CTRL and hover over the share menu to see a 'Copy Spotify URI' option
+5. Run `npm install` to install this project's dependencies
+6. To run it, run the following commands:
+    ```
+   npm run build
+   heroku local
+    ```
+7. Or alternatively, to run it in development mode: `npm run dev`
+8. Be mindful that for people to play, you need to add them as beta testers of your spotify application in the developer portal
