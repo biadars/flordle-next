@@ -17,7 +17,7 @@ export const WebPlaybackWrapper: VFC<Props> = (props: Props) => {
             <WebPlaybackSDK
                 initialDeviceName='flordle'
                 getOAuthToken={getAccessToken}
-                initialVolume={0.5}>
+                initialVolume={1}>
                 <LimitedDurationPlayback playbackDuration={props.playbackDuration} setTrack={props.setTrack} setPlaybackReady={props.setPlaybackReady}/>
             </WebPlaybackSDK>
         </>
