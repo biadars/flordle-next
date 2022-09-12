@@ -5,7 +5,6 @@ import {Challenge} from '../models/challenge';
 import {Song} from '../models/song';
 import {useCookies} from 'react-cookie';
 import {StatsButton} from './stats_button';
-import Modal from 'react-modal';
 import {InfoButton} from './info_button';
 
 interface Props {
