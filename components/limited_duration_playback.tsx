@@ -70,6 +70,16 @@ export const LimitedDurationPlayback: VFC<Props> = (props: Props) => {
     }, [playbackState, props.playbackDuration, player, setMillisecondsElapsed, gameStarted, setGameStarted]);
 
     useEffect(() => {
+        // Addressing an android chrome issue, see https://github.com/spotify/web-playback-sdk/issues/75
+        const iframe = document.querySelector('iframe[src="https://sdk.scdn.co/embedded/index.html"]') as HTMLIFrameElement;
+
+        if (iframe) {
+            iframe.style.display = 'block';
+            iframe.style.position = 'absolute';
+            iframe.style.top = '-1000px';
+            iframe.style.left = '-1000px';
+        }
+
         props.setPlaybackReady(webPlaybackSDKReady);
     }, [props.setPlaybackReady, webPlaybackSDKReady]);
 
