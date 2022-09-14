@@ -37,7 +37,6 @@ export const LimitedDurationPlayback: VFC<Props> = (props: Props) => {
 
     const resumePlayback = () => {
         if (gameStarted) {
-            console.log('resuming');
             player?.resume().then();
         } else {
             startPlayingSong();

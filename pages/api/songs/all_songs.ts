@@ -12,7 +12,7 @@ const all_songs = (req: NextApiRequest, res: NextApiResponse) => {
                 resolve(res);
             })
             .catch((err) => {
-                console.log('Something went wrong fetching today\'s challenge! ', err);
+                console.log('Something went wrong fetching the song list! ', err);
                 res.status(500);
                 reject();
             });
