@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next';
-import {ChallengeRepository} from '../../../repositories/challenge_repository';
+import {ChallengeRepository} from '../../../backend/repositories/challenge_repository';
 
 export const todays_challenge = (req: NextApiRequest, res: NextApiResponse) => {
     return new Promise((resolve, reject) => {

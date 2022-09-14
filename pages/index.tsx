@@ -1,8 +1,8 @@
 import type { NextPage, GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { Login } from '../components/login';
+import { Login } from '../frontend/components/login';
 import React from 'react';
-import {Game} from '../components/game';
+import {Game} from '../frontend/components/game';
 
 type Props = {
   token: string;

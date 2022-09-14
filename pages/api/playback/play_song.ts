@@ -1,6 +1,6 @@
 import {NextApiRequest, NextApiResponse} from 'next';
-import {ChallengeRepository} from '../../../repositories/challenge_repository';
-import {SongPlayer} from '../../../services/song_player';
+import {ChallengeRepository} from '../../../backend/repositories/challenge_repository';
+import {SongPlayer} from '../../../backend/services/song_player';
 
 const play_song = async (req: NextApiRequest, res: NextApiResponse) => {
     const songPlayer = new SongPlayer(req.cookies['spotify-token']);
