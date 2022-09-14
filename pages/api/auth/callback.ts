@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { serialize, CookieSerializeOptions } from 'cookie';
 import axios from 'axios';
 import moment from 'moment/moment';
+import {logger} from '../../../backend/utils/logger';
 
 type SpotifyAuthApiResponse = {
   access_token: string;
@@ -37,7 +38,7 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
     if (process.env.SPOTIFY_CLIENT_ID) {
         spotify_client_id = process.env.SPOTIFY_CLIENT_ID;
     } else {
-        console.error(
+        logger.error(
             'Undefined Error: An environmental variable, "SPOTIFY_CLIENT_ID", has something wrong.'
         );
     }
@@ -46,7 +47,7 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
     if (process.env.SPOTIFY_CLIENT_SECRET) {
         spotify_client_secret = process.env.SPOTIFY_CLIENT_SECRET;
     } else {
-        console.error(
+        logger.error(
             'Undefined Error: An environmental variable, "SPOTIFY_CLIENT_SECRET", has something wrong.'
         );
     }
@@ -55,7 +56,7 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
     if (process.env.SPOTIFY_REDIRECT_URI) {
         spotify_redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
     } else {
-        console.error('Undefined Error: An environmental variable, "SPOTIFY_REDIRECT_URI", has something wrong.');
+        logger.error('Undefined Error: An environmental variable, "SPOTIFY_REDIRECT_URI", has something wrong.');
     }
 
     const params = new URLSearchParams({
@@ -86,7 +87,7 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
             }
         })
         .catch((error) => {
-            console.error(`Error: ${error}`);
+            logger.error(`Error: ${error}`);
         });
 };
 

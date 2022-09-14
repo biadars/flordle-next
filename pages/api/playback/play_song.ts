@@ -15,7 +15,6 @@ const play_song = async (req: NextApiRequest, res: NextApiResponse) => {
                 resolve(res);
             })
             .catch((err) => {
-                console.log('Something went wrong playing this song! ', err);
                 res.status(500);
                 reject();
             });

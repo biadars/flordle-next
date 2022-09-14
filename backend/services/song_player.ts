@@ -1,5 +1,6 @@
 import SpotifyWebApi from 'spotify-web-api-node';
 import {Song} from '@prisma/client';
+import {logger} from '../utils/logger';
 
 export class SongPlayer {
     private spotifyApi: SpotifyWebApi;
@@ -14,16 +15,16 @@ export class SongPlayer {
 
     public playGivenSongWithRetryLogic = (song: Song | null, deviceId: string) => {
         if (!song) {
-            console.log('no song found!');
+            logger.error('No song found to plau!');
             return;
         }
 
         return this.playGivenSong(song, deviceId)
             .then(() => {
-                console.log(`Playing song with ID ${song.Id}`);
+                logger.info(`Playing song with ID ${song.Id}`);
             })
             .catch((err) => {
-                console.log('Something went wrong!', err);
+                logger.error(`Something went wrong playing song with ID ${song.Id}: `, err);
                 if (this.hasRetried) {
                     return;
                 }

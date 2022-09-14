@@ -1,5 +1,6 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import {SongRepository} from '../../../backend/repositories/song_repository';
+import {logger} from '../../../backend/utils/logger';
 
 const all_songs = (req: NextApiRequest, res: NextApiResponse) => {
     return new Promise((resolve, reject) => {
@@ -12,7 +13,7 @@ const all_songs = (req: NextApiRequest, res: NextApiResponse) => {
                 resolve(res);
             })
             .catch((err) => {
-                console.log('Something went wrong fetching the song list! ', err);
+                logger.error('Something went wrong fetching the song list! ', err);
                 res.status(500);
                 reject();
             });

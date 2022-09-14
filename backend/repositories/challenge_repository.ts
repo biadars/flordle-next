@@ -1,6 +1,7 @@
 import { Challenge, PrismaClient, Song } from '@prisma/client';
 import moment from 'moment/moment';
 import {SongRepository} from './song_repository';
+import {logger} from '../utils/logger';
 
 export class ChallengeRepository {
     private client: PrismaClient;
@@ -17,25 +18,29 @@ export class ChallengeRepository {
     };
 
     public getTodaysSong = () => {
+        logger.debug('Fetching todays song.');
         return this.getTodaysChallenge()
             .then(this.songRepository.getSongForChallenge);
     };
 
     private getTodaysChallenge = () => {
         const todaysDate = moment().utc().startOf('day').toDate();
+        logger.info(`Finding challenge for date ${todaysDate}`);
         return this.client.challenge.findFirst({where: {Date: {equals: todaysDate}}});
     };
 
     private createChallengeIfItDoesNotExist = (challenge: Challenge | null) => {
         if (challenge) {
+            logger.info(`Challenge found! Returning challenge with ID ${challenge.Id}`);
             return challenge;
         }
+        logger.info('No challenge found! Creating challenge for today...');
         return this.songRepository.getUnusedSong().then(this.createChallengeForSong);
     };
 
     private createChallengeForSong = (song: Song | null) => {
         if (!song) {
-            console.log('No more songs to use!');
+            logger.error('No more songs left to use!');
             return null;
         }
 
@@ -46,6 +51,7 @@ export class ChallengeRepository {
 
     private createChallengeWithSongAndNumber = (song: Song, number: number) => {
         const todaysDate = moment().utc().startOf('day').toDate();
+        logger.info(`Creating challenge: {number: ${number}, songId: ${song.Id}, date: ${todaysDate}}`);
         return this.client.challenge.create({data: {Date: todaysDate, SongId: song.Id, Number: number}});
     };
 

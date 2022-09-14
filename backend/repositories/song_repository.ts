@@ -1,4 +1,5 @@
 import { Challenge, PrismaClient } from '@prisma/client';
+import {logger} from '../utils/logger';
 
 export class SongRepository {
     private client: PrismaClient;
@@ -8,6 +9,7 @@ export class SongRepository {
     }
 
     public getAllSongs = () => {
+        logger.debug('Fetching all songs');
         return this.client.song.findMany();
     }
 
@@ -23,10 +25,12 @@ export class SongRepository {
             return null;
         }
 
+        logger.debug(`Fetching song for challenge ${challenge.Id}`);
         return this.client.song.findFirst({where: {Id: {equals: challenge.SongId}}});
     }
 
     public markSongAsUsedInChallenge = (songId: number) => {
+        logger.debug(`Marking song with ID ${songId} as used in challenge.`);
         return this.client.song.update({
             where: { Id: songId },
             data: { UsedInChallenge: true }

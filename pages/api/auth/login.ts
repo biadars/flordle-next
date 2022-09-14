@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import {logger} from '../../../backend/utils/logger';
 
 const generateRandomString = (length: number): string => {
     let text = 'x';
@@ -19,7 +20,7 @@ const login = (req: NextApiRequest, res: NextApiResponse) => {
     if (process.env.SPOTIFY_CLIENT_ID) {
         spotify_client_id = process.env.SPOTIFY_CLIENT_ID;
     } else {
-        console.error(
+        logger.error(
             'Undefined Error: An environmental variable, "SPOTIFY_CLIENT_ID", has something wrong.'
         );
     }
