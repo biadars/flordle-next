@@ -142,10 +142,12 @@ export const StatsDialog: VFC<StatsDialogProps> = (props: StatsDialogProps) => {
                 <span className="headerText">STATS</span>
                 <button className="closeButton" onClick={props.closeModal}><CloseOutlined fontSize="inherit"/></button>
             </div>
-            <div className="chartContainer">
-                <ReactApexChart  options={graphOptions} series={[{name: 'Guesses', data}]} type="bar" height={300} />
-                <div className="chartTitle">Your score distribution</div>
-            </div>
+            { totalGuesses > 0 && (
+                <div className="chartContainer">
+                    <ReactApexChart  options={graphOptions} series={[{name: 'Guesses', data}]} type="bar" height={300} />
+                    <div className="chartTitle">Your score distribution</div>
+                </div>
+            )}
             <div className="summaryStatsSection">
                 <div className="summaryStat">
                     <div className="headlineStat">{correctGuesses}/{totalGuesses}</div>
