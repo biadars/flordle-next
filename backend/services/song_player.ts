@@ -15,7 +15,7 @@ export class SongPlayer {
 
     public playGivenSongWithRetryLogic = (song: Song | null, deviceId: string) => {
         if (!song) {
-            logger.error('No song found to plau!');
+            logger.error('No song found to play!');
             return;
         }
 
@@ -24,7 +24,8 @@ export class SongPlayer {
                 logger.info(`Playing song with ID ${song.Id}`);
             })
             .catch((err) => {
-                logger.error(`Something went wrong playing song with ID ${song.Id}: `, err);
+                logger.error(`Something went wrong playing song with ID ${song.Id}: `);
+                logger.error(err);
                 if (this.hasRetried) {
                     return;
                 }

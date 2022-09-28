@@ -7,7 +7,8 @@ export const todays_challenge = (req: NextApiRequest, res: NextApiResponse) => {
         const challengeRepository = new ChallengeRepository();
         return challengeRepository.ensureChallengeExistsForToday()
             .then((challenge) => {
-                logger.info('Returning challenge ', challenge);
+                logger.info('Returning challenge:');
+                logger.info(challenge);
                 res.statusCode = challenge !== null ? 200 : 404;
                 res.setHeader('Content-Type', 'application/json');
                 res.end(JSON.stringify(challenge));
